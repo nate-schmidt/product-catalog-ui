@@ -25,6 +25,8 @@
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "happy-dom": "^18.0.1"
+    "happy-dom": "^18.0.1",
+    "@types/node": "^20.9.1",
+    "typescript": "^5.3.3"
   }
 }
