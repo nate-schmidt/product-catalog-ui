@@ -9,7 +9,7 @@
     "dev": "bun --hot src/index.tsx",
     "start": "NODE_ENV=production bun src/index.tsx",
     "build": "bun run build.ts",
-    "test": "bun test"
+    "test": "vitest"
   },
   "dependencies": {
     "bun-plugin-tailwind": "^0.0.14",
@@ -25,6 +25,8 @@
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "happy-dom": "^18.0.1"
+    "happy-dom": "^18.0.1",
+    "vitest": "^1.4.0",
+    "@types/happy-dom": "^19.0.0"
   }
 }
