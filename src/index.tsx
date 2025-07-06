@@ -27,6 +27,23 @@ const server = serve({
         message: `Hello, ${name}!`,
       });
     },
+
+    "/api/checkout": {
+      async POST(req: Request) {
+        let body: unknown;
+        try {
+          body = await req.json();
+        } catch {
+          body = null;
+        }
+        const orderId = crypto.randomUUID();
+        return Response.json({
+          success: true,
+          orderId,
+          received: body,
+        });
+      },
+    },
   },
 
   development: process.env.NODE_ENV !== "production" && {
