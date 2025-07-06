@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import React, { useState } from "react";
 
 interface CartItem {
