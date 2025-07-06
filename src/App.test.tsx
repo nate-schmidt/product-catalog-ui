@@ -27,40 +27,23 @@ describe('App', () => {
     const { getByRole } = render(<App />);
     const heading = getByRole('heading', { level: 1 });
     expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
+    expect(heading.textContent).toBe('Product Catalog');
   });
 
-  test('displays the subtitle text', () => {
+  test('shows a cart badge with 0 items initially', () => {
     const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    expect(subtitle).toBeDefined();
+    const badge = getByText(/Cart \(0\)/);
+    expect(badge).toBeDefined();
   });
 
-  test('has correct CSS classes for styling', () => {
-    const { container } = render(<App />);
-    const mainContainer = container.querySelector('.max-w-7xl');
-    expect(mainContainer).toBeDefined();
-    expect(mainContainer?.className).toContain('max-w-7xl');
-    expect(mainContainer?.className).toContain('mx-auto');
-    expect(mainContainer?.className).toContain('p-8');
-    expect(mainContainer?.className).toContain('text-center');
-  });
+  test('adds item to cart when button clicked', () => {
+    const { getAllByRole, getByText } = render(<App />);
+    const addButtons = getAllByRole('button', { name: 'Add to Cart' });
 
-  test('has correct text color classes', () => {
-    const { getByRole, getByText } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    
-    expect(heading.className).toContain('text-white');
-    expect(subtitle.className).toContain('text-gray-300');
-  });
+    // Click first product's add button
+    addButtons[0].click();
 
-  test('has proper layout structure', () => {
-    const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
+    const badge = getByText(/Cart \(1\)/);
+    expect(badge).toBeDefined();
   });
 }); 
