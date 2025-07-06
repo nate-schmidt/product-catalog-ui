@@ -27,6 +27,21 @@ const server = serve({
         message: `Hello, ${name}!`,
       });
     },
+
+    "/api/coupon/:code": async (req: any) => {
+      const code = req.params.code?.toUpperCase();
+      const coupons: Record<string, number> = {
+        SAVE10: 10,
+        SAVE20: 20,
+        FREESHIP: 0, // Example of non-percentage coupon
+      };
+
+      if (code && coupons[code] !== undefined) {
+        return Response.json({ valid: true, discount: coupons[code] });
+      }
+
+      return Response.json({ valid: false, discount: 0 });
+    },
   },
 
   development: process.env.NODE_ENV !== "production" && {
