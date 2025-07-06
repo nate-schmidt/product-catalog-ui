@@ -157,7 +157,7 @@ const result = await build({
 // Print the results
 const end = performance.now();
 
-const outputTable = result.outputs.map(output => ({
+const outputTable = result.outputs.map((output: any) => ({
   "File": path.relative(process.cwd(), output.path),
   "Type": output.kind,
   "Size": formatFileSize(output.size),
