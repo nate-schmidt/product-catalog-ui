@@ -104,8 +104,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleCart = () => dispatch({ type: "TOGGLE_CART" });
 
-  const getTotalPrice = () =>
-    state.items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  const getTotalPrice = (): number =>
+    state.items.reduce<number>(
+      (total: number, item: CartItem) => total + item.product.price * item.quantity,
+      0
+    );
 
   return (
     <CartContext.Provider
