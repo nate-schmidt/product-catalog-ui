@@ -63,4 +63,28 @@ describe('App', () => {
     expect(flexContainer?.className).toContain('flex-col');
     expect(flexContainer?.className).toContain('items-center');
   });
+
+  test('matches snapshot', () => {
+    const { asFragment } = render(<App />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  test('is accessible according to axe', async () => {
+    const { container } = render(<App />);
+    // @ts-ignore - dynamic npm import, types handled separately
+    const axe = (await import('axe-core')).default;
+    const { violations } = await axe.run(container);
+    expect(violations).toHaveLength(0);
+  });
+
+  test('renders correctly on small viewport widths', () => {
+    // Simulate a narrow mobile viewport
+    (global as any).innerWidth = 320;
+    document.dispatchEvent(new window.Event('resize'));
+
+    const { getByRole } = render(<App />);
+    const heading = getByRole('heading', { level: 1 });
+    expect(heading).toBeDefined();
+    // No errors thrown implies component handles viewport change gracefully
+  });
 }); 

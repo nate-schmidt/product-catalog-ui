@@ -24,6 +24,7 @@
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "happy-dom": "^18.0.1"
+    "happy-dom": "^18.0.1",
+    "axe-core": "^4.8.0"
   }
 }
