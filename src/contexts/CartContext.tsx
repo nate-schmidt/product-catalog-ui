@@ -51,6 +51,12 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         items: state.items.filter(i => i.product.id !== action.productId),
       };
     case "UPDATE_QUANTITY":
+      if (action.quantity <= 0) {
+        return {
+          ...state,
+          items: state.items.filter(i => i.product.id !== action.productId),
+        };
+      }
       return {
         ...state,
         items: state.items.map(i =>
