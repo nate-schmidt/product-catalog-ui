@@ -4,8 +4,9 @@ import {
   useContext,
   useReducer,
   Dispatch,
+  useMemo,
 } from "react";
-import { produce } from "immer";
+import { produce, Draft } from "immer";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -39,7 +40,7 @@ const initialState: CartState = {
 };
 
 const cartReducer = (state: CartState, action: CartAction): CartState =>
-  produce(state, (draft: CartState) => {
+  produce(state, (draft: Draft<CartState>) => {
     switch (action.type) {
       case "addItem": {
         const existing = draft.items[action.item.id];
@@ -123,4 +124,25 @@ export function useCartDispatch() {
 
 export function useCart() {
   return [useCartState(), useCartDispatch()] as const;
+}
+
+// ---------------------------------------------------------------------------
+// Memoised selectors
+// ---------------------------------------------------------------------------
+
+export function useCartItemCount() {
+  const { items } = useCartState();
+  return useMemo(() => {
+    return Object.values(items).reduce((acc, item) => acc + item.quantity, 0);
+  }, [items]);
+}
+
+export function useCartTotalPrice() {
+  const { items } = useCartState();
+  return useMemo(() => {
+    return Object.values(items).reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0,
+    );
+  }, [items]);
 }
