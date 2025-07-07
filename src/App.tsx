@@ -1,5 +1,17 @@
 import "./index.css";
 
+/**
+ * Root React component for the Product Catalog UI.
+ *
+ * This component currently renders a simple hero section that welcomes
+ * visitors to the site. As the application grows, the `App` component will
+ * evolve into the main layout shell that handles global concerns such as
+ * routing, contextual providers (e.g. authentication, cart state), and any
+ * top-level UI chrome (navigation, footer, etc.).
+ *
+ * Props: none
+ * Returns: JSX.Element – the rendered hero section.
+ */
 export function App() {
   return (
     <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
