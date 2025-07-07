@@ -52,6 +52,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       };
     case "UPDATE_QUANTITY":
       if (action.quantity <= 0) {
+        console.warn(
+          `updateQuantity called with non-positive quantity (${action.quantity}) for product ${action.productId}. Ignoring.`
+        );
         return {
           ...state,
           items: state.items.filter(i => i.product.id !== action.productId),
@@ -89,8 +92,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const removeFromCart = (productId: string) => dispatch({ type: "REMOVE", productId });
 
-  const updateQuantity = (productId: string, quantity: number) =>
+  const updateQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      console.warn(
+        `updateQuantity called with non-positive quantity (${quantity}) for product ${productId}. Ignoring.`
+      );
+      return;
+    }
     dispatch({ type: "UPDATE_QUANTITY", productId, quantity });
+  };
 
   const toggleCart = () => dispatch({ type: "TOGGLE_CART" });
 
