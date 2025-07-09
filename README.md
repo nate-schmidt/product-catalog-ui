@@ -59,6 +59,9 @@ bun start
 
 The development server runs on `http://localhost:3000` by default.
 
+> For a detailed technical deep-dive (API reference, configuration, contribution
+> guidelines, etc.) see the [Developer Guide](./DEVELOPER_GUIDE.md).
+
 ---
 
 Built with [Bun](https://bun.sh) - a fast all-in-one JavaScript runtime.

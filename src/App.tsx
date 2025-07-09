@@ -1,5 +1,15 @@
 import "./index.css";
 
+/**
+ * Root application component for Product Catalog UI.
+ *
+ * At the moment the component renders a simple hero banner while the real
+ * catalog, cart, and checkout features are under active development.  It
+ * demonstrates Tailwind CSS utility usage and serves as the mounting point
+ * for future routes.
+ *
+ * @returns JSX.Element – React element that represents the entire UI.
+ */
 export function App() {
   return (
     <div className="max-w-7xl mx-auto p-8 text-center relative z-10">

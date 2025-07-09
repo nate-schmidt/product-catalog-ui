@@ -1,4 +1,19 @@
 #!/usr/bin/env bun
+/**
+ * Build script for Product Catalog UI.
+ *
+ * Utilises `bun build` under the hood and adds
+ * 1. A Tailwind CSS plugin so that utility classes are extracted automatically.
+ * 2. An ergonomic CLI that maps familiar flags (e.g. `--outdir`, `--minify`) to
+ *    the underlying `BuildConfig` structure.
+ *
+ * Usage:
+ * ```bash
+ * bun run build.ts --outdir=dist --minify --source-map=linked
+ * ```
+ *
+ * Run `bun run build.ts --help` to print the full flag reference.
+ */
 import { build, type BuildConfig } from "bun";
 import plugin from "bun-plugin-tailwind";
 import { existsSync } from "fs";
