@@ -1,17 +1,23 @@
 import "./index.css";
+import { useState } from "react";
+import { CartProvider } from "./contexts/CartContext";
+import Header from "./components/Header";
+import ProductCatalog from "./components/ProductCatalog";
+import Cart from "./components/Cart";
 
 export function App() {
+  const [cartOpen, setCartOpen] = useState(false);
+
   return (
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
-        <h1 className="text-6xl font-bold text-white mb-4">
-          Hello World! 👋
-        </h1>
-        <p className="text-2xl text-gray-300 max-w-2xl leading-relaxed">
-          One day I hope to be an ecommerce website.
-        </p>
+    <CartProvider>
+      <div className="min-h-screen flex flex-col bg-base">
+        <Header onCartClick={() => setCartOpen(true)} />
+        <main className="flex-1">
+          <ProductCatalog />
+        </main>
+        <Cart open={cartOpen} onClose={() => setCartOpen(false)} />
       </div>
-    </div>
+    </CartProvider>
   );
 }
 

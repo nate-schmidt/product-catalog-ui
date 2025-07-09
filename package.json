@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "bun-plugin-tailwind": "^0.0.14",
+    "lucide-react": "^0.368.0",
     "react": "^19",
     "react-dom": "^19",
     "tailwindcss": "^4.0.6"
