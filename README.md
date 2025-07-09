@@ -9,6 +9,18 @@ A modern product catalog interface built with React, TypeScript, and Tailwind CS
 - Responsive design
 - Modern UI with Tailwind CSS
 
+### Browse Product Catalog
+The catalog view presents all available products in a clean, card-based layout. Each card displays the product image, name, short description, and price. Clicking on a product card navigates to a detailed view (coming soon) where customers will be able to see full specifications and related items.
+
+### Search and Filter Products
+A global search bar lets customers quickly find products by keyword. In addition, filter controls (category, price range, rating, availability) appear above the catalog grid. Filters can be combined, and results update in real-time for a seamless discovery experience.
+
+### Responsive Design
+The entire UI is fully responsive out of the box. We rely on Tailwind’s responsive utilities to ensure that the catalog grid, navigation, and interactive controls adapt gracefully from mobile phones all the way up to ultra-wide desktops. No separate code paths are required.
+
+### Modern UI with Tailwind CSS
+All styling is powered by Tailwind CSS. Utility classes keep component code concise while maintaining full design flexibility. The default color palette provides a sleek, modern aesthetic, but you can easily customize it via the Tailwind configuration file to match any brand guidelines.
+
 ## Getting Started
 
 To install dependencies:
