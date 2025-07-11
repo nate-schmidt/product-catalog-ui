@@ -1,11 +1,12 @@
 import { serve } from "bun";
 import index from "./index.html";
 import { findCoupon, applyCoupon } from "./coupons";
+import type { BunRequest } from "../bun-env";
 
 const server = serve({
   routes: {
     // Coupon validation endpoint
-    "/api/coupon/:code": async (req: any) => {
+    "/api/coupon/:code": async (req: BunRequest<{ code: string }>) => {
       const { code } = req.params as { code: string };
       const coupon = findCoupon(code);
       if (!coupon) {
@@ -19,7 +20,7 @@ const server = serve({
 
     // Apply coupon to a subtotal
     "/api/apply-coupon": {
-      async POST(req: any) {
+      async POST(req: BunRequest) {
         try {
           const { code, subtotal } = (await req.json()) as {
             code: string;
@@ -56,7 +57,7 @@ const server = serve({
       },
     },
 
-    "/api/hello/:name": async (req: any) => {
+    "/api/hello/:name": async (req: BunRequest<{ name: string }>) => {
       const name = req.params.name;
       return Response.json({
         message: `Hello, ${name}!`,

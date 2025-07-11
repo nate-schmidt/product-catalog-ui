@@ -15,3 +15,19 @@ declare module "*.module.css" {
   const classes: { readonly [key: string]: string };
   export = classes;
 }
+
+declare module "*.html" {
+  /**
+   * Raw string contents of the HTML file. Bun converts HTML imports into strings
+   * that can be served directly.
+   */
+  const html: string;
+  export = html;
+}
+
+/**
+ * Helper utility type for Bun route handlers where `Request` objects are
+ * augmented with a `params` property containing path parameters.
+ */
+export type BunRequest<P extends Record<string, string> = Record<string, string>> =
+  Request & { params: P };
