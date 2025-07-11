@@ -18,11 +18,11 @@ declare module "*.module.css" {
 
 declare module "*.html" {
   /**
-   * Raw string contents of the HTML file. Bun converts HTML imports into strings
-   * that can be served directly.
+   * Raw string contents of the HTML file. Bun converts HTML imports into
+   * strings that can be served directly via Bun's `serve`.
    */
   const html: string;
-  export = html;
+  export default html;
 }
 
 export {};
@@ -47,11 +47,22 @@ declare global {
 
 declare module "react" {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const React: any;
+  import { JSX as _JSX } from "./index";
+  // above import may self reference but stub ok.
+  export const Fragment: any;
+  export type ReactElement = _JSX.Element;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function createElement(type: any, props: any, ...children: any[]): any;
+  // Hooks
   export function useState<T>(init: T): [T, (val: T) => void];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function useMemo<T>(factory: () => T, deps: any[]): T;
+  const React: {
+    createElement: typeof createElement;
+    Fragment: typeof Fragment;
+    useState: typeof useState;
+    useMemo: typeof useMemo;
+  };
   export default React;
 }
 
