@@ -46,11 +46,8 @@ declare global {
 // ---------------------------------------------------------------------------
 
 declare module "react" {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  import { JSX as _JSX } from "./index";
-  // above import may self reference but stub ok.
-  export const Fragment: any;
-  export type ReactElement = _JSX.Element;
+  export const Fragment: unknown;
+  export type ReactElement = any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function createElement(type: any, props: any, ...children: any[]): any;
   // Hooks
