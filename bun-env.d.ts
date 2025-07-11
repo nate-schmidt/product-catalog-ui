@@ -72,6 +72,25 @@ declare module "bun" {
 declare namespace JSX {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interface IntrinsicElements {
+    // Common HTML Elements
+    div: any;
+    span: any;
+    input: any;
+    button: any;
+    table: any;
+    thead: any;
+    tbody: any;
+    tr: any;
+    td: any;
+    th: any;
+    h1: any;
+    h2: any;
+    h3: any;
+    p: any;
+    img: any;
+    a: any;
+    svg: any;
+    // Fallback catch-all
     [elemName: string]: any;
   }
 }

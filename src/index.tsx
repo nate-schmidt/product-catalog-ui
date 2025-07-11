@@ -42,13 +42,13 @@ const server = serve({
     },
 
     "/api/hello": {
-      async GET(req) {
+      async GET(req: BunRequest<{}>) {
         return Response.json({
           message: "Hello, world!",
           method: "GET",
         });
       },
-      async PUT(req) {
+      async PUT(req: BunRequest<{}>) {
         return Response.json({
           message: "Hello, world!",
           method: "PUT",
