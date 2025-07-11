@@ -71,3 +71,25 @@ declare module "react/jsx-runtime" {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export const Fragment: any;
 }
+
+// ---------------------------------------------------------------------------
+// JSX namespace fallback
+// Provide a very permissive IntrinsicElements map so JSX tags are accepted even
+// when the full @types/react package is not present.
+// ---------------------------------------------------------------------------
+
+declare namespace JSX {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  interface IntrinsicElements {
+    // Allow any HTML/SVG tag name
+    [elemName: string]: any;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Node.js `process` global stub (sufficient for accessing env vars)
+// ---------------------------------------------------------------------------
+
+declare const process: {
+  env: Record<string, string | undefined>;
+};
