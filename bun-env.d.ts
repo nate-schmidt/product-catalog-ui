@@ -77,29 +77,27 @@ declare module "bun" {
   export function serve(options: any): any;
 }
 
+import type { DetailedHTMLProps, HTMLAttributes } from "react";
+
 declare namespace JSX {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interface IntrinsicElements {
-    // Common HTML Elements
-    div: any;
-    span: any;
-    input: any;
-    button: any;
-    table: any;
-    thead: any;
-    tbody: any;
-    tr: any;
-    td: any;
-    th: any;
-    h1: any;
-    h2: any;
-    h3: any;
-    p: any;
-    img: any;
-    a: any;
-    svg: any;
-    // Fallback catch-all
-    [elemName: string]: any;
+    div: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+    span: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+    input: DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+    button: DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+    table: DetailedHTMLProps<HTMLAttributes<HTMLTableElement>, HTMLTableElement>;
+    thead: DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>;
+    tbody: DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>;
+    tr: DetailedHTMLProps<HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement>;
+    td: DetailedHTMLProps<HTMLAttributes<HTMLTableCellElement>, HTMLTableCellElement>;
+    th: DetailedHTMLProps<HTMLAttributes<HTMLTableCellElement>, HTMLTableCellElement>;
+    h1: DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
+    h2: DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
+    h3: DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
+    p: DetailedHTMLProps<HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement>;
+    img: DetailedHTMLProps<HTMLAttributes<HTMLImageElement>, HTMLImageElement>;
+    a: DetailedHTMLProps<HTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
+    svg: DetailedHTMLProps<HTMLAttributes<SVGSVGElement>, SVGSVGElement>;
   }
 }
 
