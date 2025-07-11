@@ -1,7 +1,6 @@
 import { serve } from "bun";
 import index from "./index.html";
 import { findCoupon, applyCoupon } from "./coupons";
-import type { BunRequest } from "../bun-env";
 
 const server = serve({
   routes: {

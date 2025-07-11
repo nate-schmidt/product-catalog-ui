@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 import "./index.css";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 type CartItem = {
   id: number;

@@ -25,9 +25,49 @@ declare module "*.html" {
   export = html;
 }
 
+export {};
+
 /**
  * Helper utility type for Bun route handlers where `Request` objects are
  * augmented with a `params` property containing path parameters.
+ *
+ * Declared in the global namespace so it can be used anywhere without an
+ * explicit import statement.
  */
-export type BunRequest<P extends Record<string, string> = Record<string, string>> =
-  Request & { params: P };
+declare global {
+  type BunRequest<P extends Record<string, string> = Record<string, string>> =
+    Request & { params: P };
+}
+
+// ---------------------------------------------------------------------------
+// Ambient module fallbacks
+// These minimal declarations allow TypeScript to compile when the actual
+// libraries haven’t been installed in the current workspace. When the real
+// packages are available, their own type definitions will take precedence.
+// ---------------------------------------------------------------------------
+
+declare module "react" {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const React: any;
+  // Hook stubs (very light signatures, enough for type-checking examples)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function useState<T>(init: T): [T, (value: T) => void];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function useMemo<T>(factory: () => T, deps: any[]): T;
+  export default React;
+}
+
+declare module "bun" {
+  // Basic shape for Bun's `serve` API
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function serve(options: any): any;
+}
+
+declare module "react/jsx-runtime" {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export const jsx: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export const jsxs: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export const Fragment: any;
+}
