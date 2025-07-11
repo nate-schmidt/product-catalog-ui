@@ -1,10 +1,45 @@
 import { serve } from "bun";
 import index from "./index.html";
+import { findCoupon, applyCoupon } from "./coupons";
 
 const server = serve({
   routes: {
-    // Serve index.html for all unmatched routes.
-    "/*": index,
+    // Coupon validation endpoint
+    "/api/coupon/:code": async (req: any) => {
+      const { code } = req.params as { code: string };
+      const coupon = findCoupon(code);
+      if (!coupon) {
+        return new Response(
+          JSON.stringify({ valid: false, message: "Invalid or expired coupon" }),
+          { status: 404, headers: { "Content-Type": "application/json" } },
+        );
+      }
+      return Response.json({ valid: true, coupon });
+    },
+
+    // Apply coupon to a subtotal
+    "/api/apply-coupon": {
+      async POST(req: any) {
+        try {
+          const { code, subtotal } = (await req.json()) as {
+            code: string;
+            subtotal: number;
+          };
+
+          const coupon = findCoupon(code);
+          if (!coupon)
+            return Response.json(
+              { error: "Invalid or expired coupon" },
+              { status: 400 },
+            );
+
+          const { total, discount } = applyCoupon(subtotal, coupon);
+          return Response.json({ total, discount, coupon });
+        } catch (err) {
+          return Response.json({ error: "Malformed request" }, { status: 400 });
+        }
+      },
+    },
 
     "/api/hello": {
       async GET(req) {
@@ -21,12 +56,15 @@ const server = serve({
       },
     },
 
-    "/api/hello/:name": async req => {
+    "/api/hello/:name": async (req: any) => {
       const name = req.params.name;
       return Response.json({
         message: `Hello, ${name}!`,
       });
     },
+
+    // Serve index.html for all unmatched routes.
+    "/*": index,
   },
 
   development: process.env.NODE_ENV !== "production" && {
