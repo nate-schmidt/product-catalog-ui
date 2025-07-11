@@ -40,27 +40,19 @@ declare global {
 }
 
 // ---------------------------------------------------------------------------
-// Ambient module fallbacks
-// These minimal declarations allow TypeScript to compile when the actual
-// libraries haven’t been installed in the current workspace. When the real
-// packages are available, their own type definitions will take precedence.
+// Minimal ambient declarations to satisfy TypeScript when node_modules types
+// are not installed in the execution environment (e.g., online sandboxes).
+// If real type packages are present, these are overridden and cause no harm.
 // ---------------------------------------------------------------------------
 
 declare module "react" {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const React: any;
-  // Hook stubs (very light signatures, enough for type-checking examples)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function useState<T>(init: T): [T, (value: T) => void];
+  export function useState<T>(init: T): [T, (val: T) => void];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function useMemo<T>(factory: () => T, deps: any[]): T;
   export default React;
-}
-
-declare module "bun" {
-  // Basic shape for Bun's `serve` API
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function serve(options: any): any;
 }
 
 declare module "react/jsx-runtime" {
@@ -72,23 +64,17 @@ declare module "react/jsx-runtime" {
   export const Fragment: any;
 }
 
-// ---------------------------------------------------------------------------
-// JSX namespace fallback
-// Provide a very permissive IntrinsicElements map so JSX tags are accepted even
-// when the full @types/react package is not present.
-// ---------------------------------------------------------------------------
+declare module "bun" {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function serve(options: any): any;
+}
 
 declare namespace JSX {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interface IntrinsicElements {
-    // Allow any HTML/SVG tag name
     [elemName: string]: any;
   }
 }
-
-// ---------------------------------------------------------------------------
-// Node.js `process` global stub (sufficient for accessing env vars)
-// ---------------------------------------------------------------------------
 
 declare const process: {
   env: Record<string, string | undefined>;
