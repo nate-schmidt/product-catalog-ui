@@ -45,60 +45,9 @@ declare global {
 // If real type packages are present, these are overridden and cause no harm.
 // ---------------------------------------------------------------------------
 
-declare module "react" {
-  export const Fragment: unknown;
-  export type ReactElement = any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function createElement(type: any, props: any, ...children: any[]): any;
-  // Hooks
-  export function useState<T>(init: T): [T, (val: T) => void];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function useMemo<T>(factory: () => T, deps: any[]): T;
-  const React: {
-    createElement: typeof createElement;
-    Fragment: typeof Fragment;
-    useState: typeof useState;
-    useMemo: typeof useMemo;
-  };
-  export default React;
-}
-
-declare module "react/jsx-runtime" {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export const jsx: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export const jsxs: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export const Fragment: any;
-}
-
 declare module "bun" {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function serve(options: any): any;
-}
-
-import type { DetailedHTMLProps, HTMLAttributes } from "react";
-
-declare namespace JSX {
-  interface IntrinsicElements {
-    div: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
-    span: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
-    input: DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement>;
-    button: DetailedHTMLProps<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
-    table: DetailedHTMLProps<HTMLAttributes<HTMLTableElement>, HTMLTableElement>;
-    thead: DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>;
-    tbody: DetailedHTMLProps<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement>;
-    tr: DetailedHTMLProps<HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement>;
-    td: DetailedHTMLProps<HTMLAttributes<HTMLTableCellElement>, HTMLTableCellElement>;
-    th: DetailedHTMLProps<HTMLAttributes<HTMLTableCellElement>, HTMLTableCellElement>;
-    h1: DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    h2: DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    h3: DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-    p: DetailedHTMLProps<HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement>;
-    img: DetailedHTMLProps<HTMLAttributes<HTMLImageElement>, HTMLImageElement>;
-    a: DetailedHTMLProps<HTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
-    svg: DetailedHTMLProps<HTMLAttributes<SVGSVGElement>, SVGSVGElement>;
-  }
 }
 
 declare const process: {
