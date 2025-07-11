@@ -19,7 +19,7 @@ const server = serve({
 
     // Apply coupon to a subtotal
     "/api/apply-coupon": {
-      async POST(req: BunRequest) {
+      async POST(req: BunRequest<{}>) {
         try {
           const { code, subtotal } = (await req.json()) as {
             code: string;

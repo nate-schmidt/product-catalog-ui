@@ -9,6 +9,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["bun", "node", "react"],
     "paths": {
       "@/*": ["./src/*"]
     }
