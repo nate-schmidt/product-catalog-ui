@@ -121,6 +121,8 @@ const formatFileSize = (bytes: number): string => {
   return `${size.toFixed(2)} ${units[unitIndex]}`;
 };
 
+export { toCamelCase, parseValue, parseArgs, formatFileSize };
+
 console.log("\n🚀 Starting build process...\n");
 
 // Parse CLI arguments with our magical parser

@@ -15,3 +15,21 @@ declare module "*.module.css" {
   const classes: { readonly [key: string]: string };
   export = classes;
 }
+
+// Minimal typings for Bun's test module to satisfy TypeScript when running tests.
+declare module "bun:test" {
+  export const describe: (
+    name: string,
+    callback: () => void
+  ) => void;
+  export const test: (
+    name: string,
+    callback: () => void | Promise<void>
+  ) => void;
+  export const expect: any;
+  export const beforeAll: (cb: () => void | Promise<void>) => void;
+  export const afterAll: (cb: () => void | Promise<void>) => void;
+}
+
+// Provide a minimal declaration for the `process` global so tests can mutate argv without pulling in full Node types.
+declare var process: { argv: string[] };
