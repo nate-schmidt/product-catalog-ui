@@ -27,6 +27,16 @@ const server = serve({
         message: `Hello, ${name}!`,
       });
     },
+
+    "/api/checkout": async req => {
+      if (req.method !== "POST") {
+        return new Response(null, { status: 405 });
+      }
+      const body = await req.json();
+      // In real world you would process payment and create order record here.
+      // For demo, just echo back success.
+      return Response.json({ success: true, order: body, orderId: Date.now() });
+    },
   },
 
   development: process.env.NODE_ENV !== "production" && {

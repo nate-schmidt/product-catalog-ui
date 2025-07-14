@@ -15,7 +15,8 @@
     "bun-plugin-tailwind": "^0.0.14",
     "react": "^19",
     "react-dom": "^19",
-    "tailwindcss": "^4.0.6"
+    "tailwindcss": "^4.0.6",
+    "react-router-dom": "^6.22.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
@@ -24,6 +25,7 @@
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-router-dom": "^5.3.3",
     "happy-dom": "^18.0.1"
   }
 }
