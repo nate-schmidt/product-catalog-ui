@@ -1,3 +1,4 @@
+import React from "react";
 import { test, expect, describe, beforeEach } from 'bun:test';
 import { render, cleanup } from '@testing-library/react';
 import { App } from './App';
