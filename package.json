@@ -25,7 +25,6 @@
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/react-router-dom": "^5.3.3",
     "happy-dom": "^18.0.1"
   }
 }
