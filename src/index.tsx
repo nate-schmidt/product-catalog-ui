@@ -28,7 +28,7 @@ const server = serve({
       });
     },
 
-    "/api/checkout": async req => {
+    "/api/checkout": async (req: Request) => {
       if (req.method !== "POST") {
         return new Response(null, { status: 405 });
       }

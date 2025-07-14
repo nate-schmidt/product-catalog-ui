@@ -11,7 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["bun", "react", "react-dom", "react-router-dom"]
   },
   "exclude": ["dist", "node_modules"]
 }

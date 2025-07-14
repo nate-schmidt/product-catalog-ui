@@ -6,7 +6,7 @@ interface Props {
   product: Product;
 }
 
-export default function ProductCard({ product }: Props): React.ReactElement {
+const ProductCard: React.FC<Props> = ({ product }: Props) => {
   const { addToCart } = useCart();
 
   return (
@@ -22,4 +22,6 @@ export default function ProductCard({ product }: Props): React.ReactElement {
       </button>
     </div>
   );
-}
+};
+
+export default ProductCard;
