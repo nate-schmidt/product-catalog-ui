@@ -12,7 +12,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["bun", "react", "react-dom", "react-router-dom"]
+    "types": ["bun-types", "react", "react-dom"]
   },
   "exclude": ["dist", "node_modules"]
 }
