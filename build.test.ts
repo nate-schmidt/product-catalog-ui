@@ -3,12 +3,6 @@ import { describe, test, expect, beforeAll, afterAll } from "bun:test";
 
 import { toCamelCase, parseValue, parseArgs, formatFileSize } from "./build";
 
-// Declare a minimal `process` typing so TypeScript doesn't complain in the test environment.
-declare var process: { argv: string[] };
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-// @ts-ignore -- Bun injects a compatible `process` object at runtime
-// The redeclaration above is only for type checking purposes.
-
 
 describe("toCamelCase", () => {
   const cases: Array<[string, string]> = [
@@ -78,7 +72,7 @@ describe("parseArgs", () => {
   test("parses CLI arguments into correct config object", () => {
     const config = parseArgs();
     expect(config.outdir).toBe("dist");
-    expect(config.minify).toBe(true);
+    expect(typeof (config as any).minify).toBe("object");
     expect(config.splitting).toBe(false);
     expect((config as any).minify).toBeDefined();
     expect((config as any).minify.whitespace).toBe(true);

@@ -32,4 +32,14 @@ declare module "bun:test" {
 }
 
 // Provide a minimal declaration for the `process` global so tests can mutate argv without pulling in full Node types.
-declare var process: { argv: string[] };
+declare namespace NodeJS {
+  // A very light subset of the Process interface – just enough for our project.
+  interface Process {
+    argv: string[];
+    env: Record<string, string | undefined>;
+    exit(code?: number): void;
+    cwd(): string;
+  }
+}
+
+declare var process: NodeJS.Process;

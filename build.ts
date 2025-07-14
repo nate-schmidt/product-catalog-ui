@@ -97,8 +97,12 @@ function parseArgs(): Partial<BuildConfig> {
     // Handle nested properties (e.g. --minify.whitespace)
     if (key.includes(".")) {
       const [parentKey, childKey] = key.split(".");
-      config[parentKey] = config[parentKey] || {};
-      config[parentKey][childKey] = parseValue(value);
+      // If the parent key is currently a primitive (e.g. boolean `true` from `--minify`),
+      // convert it into an object so we can assign nested properties safely.
+      if (typeof config[parentKey] !== "object" || config[parentKey] === null) {
+        config[parentKey] = {};
+      }
+      (config[parentKey] as Record<string, unknown>)[childKey] = parseValue(value);
     } else {
       config[key] = parseValue(value);
     }
