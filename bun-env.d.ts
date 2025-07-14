@@ -43,3 +43,10 @@ declare namespace NodeJS {
 }
 
 declare var process: NodeJS.Process;
+
+// bun-plugin-tailwind does not ship TypeScript definitions. Provide a simple
+// ambient declaration so the TypeScript compiler (and linter) is satisfied.
+declare module "bun-plugin-tailwind" {
+  const plugin: any;
+  export default plugin;
+}
