@@ -1,51 +1,74 @@
 # Product Catalog UI
 
-A modern product catalog interface built with React, TypeScript, and Tailwind CSS, powered by Bun.
+This is the frontend application for a modern e-commerce product catalog system, built with React, TypeScript, and Bun.
 
-## Features
+## Technology Stack
 
-- Browse product catalog
-- Search and filter products
-- Responsive design
-- Modern UI with Tailwind CSS
+- **Runtime**: Bun (fast all-in-one JavaScript runtime)
+- **Framework**: React 19 with TypeScript
+- **Styling**: Tailwind CSS
+- **Build Tool**: Bun's built-in bundler
+- **Testing**: Bun test runner with React Testing Library
 
 ## Getting Started
 
-To install dependencies:
+### Prerequisites
+
+- Bun 1.1.44 or higher
+- Node.js 18+ (for compatibility)
+
+### Installation
 
 ```bash
+# Install dependencies
 bun install
 ```
 
-To start the development server:
+### Development
 
 ```bash
-bun dev
+# Start development server
+bun run dev
+
+# The app will be available at http://localhost:3000
 ```
 
-To build for production:
+### Building
 
 ```bash
+# Build for production
 bun run build
+
+# Preview production build
+bun run preview
 ```
 
-To run the production build:
+### Testing
 
 ```bash
-bun start
+# Run tests
+bun test
+
+# Run tests in watch mode
+bun test --watch
 ```
 
-## Tech Stack
+## Documentation
 
-- **Runtime**: Bun
-- **Framework**: React 18
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Build Tool**: Bun's built-in bundler
+### Component Documentation
 
-## Development
+Comprehensive documentation for all React components is available:
 
-The development server runs on `http://localhost:3000` by default.
+- **[Components Overview](src/docs/components.md)** - Complete guide to all components
+- **Individual Component Docs:**
+  - [App Component](src/components/docs/App.md) - Root component and routing
+  - [ProductCatalog](src/components/docs/ProductCatalog.md) - Product listing with filters
+  - [CartDisplay](src/components/docs/CartDisplay.md) - Shopping cart UI
+  - [CartContext](src/components/docs/CartContext.md) - Cart state management
+
+### API Integration
+
+The frontend integrates with the Java backend service. See component documentation for specific API endpoints and data formats.
 
 ---
 
