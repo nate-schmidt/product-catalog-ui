@@ -1,8 +1,39 @@
 import { serve } from "bun";
 import index from "./index.html";
 
+// Sample product data with flash sale information
+const products = [
+  {
+    id: 1,
+    name: "Wireless Headphones",
+    price: 199.99,
+    image: "https://picsum.photos/seed/headphones/400/300",
+    salePrice: 129.99,
+    saleEndsAt: Date.now() + 2 * 60 * 60 * 1000, // 2 hours from server start
+  },
+  {
+    id: 2,
+    name: "Smart Watch",
+    price: 149.99,
+    image: "https://picsum.photos/seed/watch/400/300",
+    salePrice: 99.99,
+    saleEndsAt: Date.now() + 60 * 60 * 1000, // 1 hour
+  },
+  {
+    id: 3,
+    name: "Gaming Keyboard",
+    price: 89.99,
+    image: "https://picsum.photos/seed/keyboard/400/300",
+  },
+];
+
 const server = serve({
   routes: {
+    "/api/products": {
+      async GET(req) {
+        return Response.json(products);
+      },
+    },
     // Serve index.html for all unmatched routes.
     "/*": index,
 
