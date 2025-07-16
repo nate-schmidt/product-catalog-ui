@@ -5,6 +5,8 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  image?: string;
+  salePrice?: number;
 }
 
 interface CheckoutProps {
@@ -18,7 +20,10 @@ export function Checkout({ cartItems }: CheckoutProps) {
   const [isValidating, setIsValidating] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartItems.reduce((sum, item) => {
+    const itemPrice = item.salePrice || item.price;
+    return sum + (itemPrice * item.quantity);
+  }, 0);
   const discount = appliedCoupon ? appliedCoupon.discount : 0;
   const total = subtotal - discount;
 
@@ -96,12 +101,37 @@ export function Checkout({ cartItems }: CheckoutProps) {
       {/* Order Summary */}
       <div className="space-y-4 mb-6">
         <h3 className="text-lg font-semibold text-gray-300">Order Summary</h3>
-        {cartItems.map(item => (
-          <div key={item.id} className="flex justify-between text-gray-400">
-            <span>{item.name} x{item.quantity}</span>
-            <span>${(item.price * item.quantity).toFixed(2)}</span>
-          </div>
-        ))}
+        {cartItems.map(item => {
+          const itemPrice = item.salePrice || item.price;
+          return (
+            <div key={item.id} className="flex items-center gap-4 p-3 bg-gray-900 rounded">
+              {item.image && (
+                <img 
+                  src={item.image} 
+                  alt={item.name}
+                  className="w-16 h-16 object-cover rounded"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64x64?text=No+Image';
+                  }}
+                />
+              )}
+              <div className="flex-1">
+                <h4 className="text-white font-medium">{item.name}</h4>
+                <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+              </div>
+              <div className="text-right">
+                {item.salePrice ? (
+                  <div>
+                    <p className="text-green-400 font-semibold">${(itemPrice * item.quantity).toFixed(2)}</p>
+                    <p className="text-xs text-gray-500 line-through">${(item.price * item.quantity).toFixed(2)}</p>
+                  </div>
+                ) : (
+                  <p className="text-white font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className="border-t border-gray-700 pt-4 space-y-2">
