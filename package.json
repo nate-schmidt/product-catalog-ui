@@ -9,7 +9,13 @@
     "dev": "bun --hot src/index.tsx",
     "start": "NODE_ENV=production bun src/index.tsx",
     "build": "bun run build.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "test:ui": "bun test src/**/*.test.tsx --timeout 10000",
+    "test:api": "bun test src/index.test.tsx",
+    "test:integration": "bun test src/integration.test.tsx",
+    "test:all": "bun test --timeout 10000"
   },
   "dependencies": {
     "bun-plugin-tailwind": "^0.0.14",
