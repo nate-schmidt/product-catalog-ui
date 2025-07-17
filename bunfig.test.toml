@@ -1,0 +1,17 @@
+[test]
+# Run tests that match these patterns
+# Default: ["**/*.test.{js,jsx,ts,tsx}", "**/*.spec.{js,jsx,ts,tsx}"]
+patterns = ["src/**/*.test.{ts,tsx}"]
+
+# Configure test runner
+timeout = 5000 # 5 seconds per test
+coverage = true
+coverageReporter = ["text", "html"]
+coverageThreshold = {
+  global = {
+    branches = 70,
+    functions = 70,
+    lines = 70,
+    statements = 70
+  }
+}
