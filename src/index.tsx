@@ -37,3 +37,5 @@ const server = serve({
     console: true,
   },
 });
+
+export default server;
