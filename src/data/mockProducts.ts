@@ -1,0 +1,111 @@
+import { Product } from '../types/product';
+
+export const mockProducts: Product[] = [
+  {
+    id: '1',
+    name: 'Wireless Bluetooth Headphones',
+    description: 'Premium noise-cancelling wireless headphones with 30-hour battery life and superior sound quality.',
+    price: 149.99,
+    images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop'],
+    category: 'Electronics',
+    stock: 25,
+    variants: {
+      color: [
+        { id: 'black', name: 'Color', value: 'Black', priceModifier: 0 },
+        { id: 'white', name: 'Color', value: 'White', priceModifier: 0 },
+        { id: 'blue', name: 'Color', value: 'Blue', priceModifier: 10 },
+      ],
+    },
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-01-01'),
+  },
+  {
+    id: '2',
+    name: 'Organic Cotton T-Shirt',
+    description: 'Comfortable and sustainable organic cotton t-shirt, perfect for everyday wear.',
+    price: 29.99,
+    images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop'],
+    category: 'Clothing',
+    stock: 100,
+    variants: {
+      size: [
+        { id: 's', name: 'Size', value: 'S', priceModifier: 0 },
+        { id: 'm', name: 'Size', value: 'M', priceModifier: 0 },
+        { id: 'l', name: 'Size', value: 'L', priceModifier: 0 },
+        { id: 'xl', name: 'Size', value: 'XL', priceModifier: 5 },
+      ],
+      color: [
+        { id: 'white', name: 'Color', value: 'White', priceModifier: 0 },
+        { id: 'black', name: 'Color', value: 'Black', priceModifier: 0 },
+        { id: 'gray', name: 'Color', value: 'Gray', priceModifier: 0 },
+      ],
+    },
+    createdAt: new Date('2024-01-02'),
+    updatedAt: new Date('2024-01-02'),
+  },
+  {
+    id: '3',
+    name: 'Stainless Steel Water Bottle',
+    description: 'Insulated water bottle that keeps drinks cold for 24 hours or hot for 12 hours.',
+    price: 34.99,
+    images: ['https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&h=500&fit=crop'],
+    category: 'Sports & Outdoors',
+    stock: 50,
+    variants: {
+      size: [
+        { id: '500ml', name: 'Size', value: '500ml', priceModifier: 0 },
+        { id: '750ml', name: 'Size', value: '750ml', priceModifier: 5 },
+        { id: '1L', name: 'Size', value: '1L', priceModifier: 10 },
+      ],
+    },
+    createdAt: new Date('2024-01-03'),
+    updatedAt: new Date('2024-01-03'),
+  },
+  {
+    id: '4',
+    name: 'Ergonomic Office Chair',
+    description: 'Comfortable office chair with lumbar support, adjustable height, and breathable mesh back.',
+    price: 299.99,
+    images: ['https://images.unsplash.com/photo-1592078615290-033ee584e267?w=500&h=500&fit=crop'],
+    category: 'Furniture',
+    stock: 15,
+    createdAt: new Date('2024-01-04'),
+    updatedAt: new Date('2024-01-04'),
+  },
+  {
+    id: '5',
+    name: 'Smart Watch',
+    description: 'Feature-packed smartwatch with heart rate monitor, GPS, and 7-day battery life.',
+    price: 249.99,
+    images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop'],
+    category: 'Electronics',
+    stock: 30,
+    variants: {
+      band: [
+        { id: 'sport', name: 'Band', value: 'Sport Band', priceModifier: 0 },
+        { id: 'leather', name: 'Band', value: 'Leather Band', priceModifier: 50 },
+        { id: 'metal', name: 'Band', value: 'Metal Band', priceModifier: 75 },
+      ],
+    },
+    createdAt: new Date('2024-01-05'),
+    updatedAt: new Date('2024-01-05'),
+  },
+  {
+    id: '6',
+    name: 'Yoga Mat',
+    description: 'Non-slip yoga mat with extra cushioning for comfortable practice.',
+    price: 39.99,
+    images: ['https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&h=500&fit=crop'],
+    category: 'Sports & Outdoors',
+    stock: 75,
+    variants: {
+      color: [
+        { id: 'purple', name: 'Color', value: 'Purple', priceModifier: 0 },
+        { id: 'blue', name: 'Color', value: 'Blue', priceModifier: 0 },
+        { id: 'pink', name: 'Color', value: 'Pink', priceModifier: 0 },
+      ],
+    },
+    createdAt: new Date('2024-01-06'),
+    updatedAt: new Date('2024-01-06'),
+  },
+];
