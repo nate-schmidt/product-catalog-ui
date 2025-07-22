@@ -1,7 +1,7 @@
 import { test, expect, describe, beforeEach } from 'bun:test';
 import { render, cleanup } from '@testing-library/react';
-import { App } from './App';
 import { Window } from 'happy-dom';
+import ProductCatalog from '../ProductCatalog';
 
 // Setup DOM environment for tests
 const window = new Window();
@@ -13,18 +13,25 @@ const document = window.document;
 (global as any).HTMLElement = window.HTMLElement;
 (global as any).Element = window.Element;
 
-describe('App', () => {
+describe('ProductCatalog', () => {
   beforeEach(() => {
     cleanup();
     document.body.innerHTML = '';
   });
 
   test('renders without crashing', () => {
-    render(<App />);
+    render(<ProductCatalog />);
   });
 
-  test('renders ProductCatalog component', () => {
-    const { container } = render(<App />);
-    expect(container.firstChild).toBeDefined();
+  test('shows loading state initially', () => {
+    const { getByText } = render(<ProductCatalog />);
+    expect(getByText('Loading products...')).toBeDefined();
+  });
+
+  test('has correct CSS classes for main container', () => {
+    const { container } = render(<ProductCatalog />);
+    const mainContainer = container.querySelector('.min-h-screen');
+    expect(mainContainer).toBeDefined();
+    expect(mainContainer?.className).toContain('bg-gray-50');
   });
 }); 

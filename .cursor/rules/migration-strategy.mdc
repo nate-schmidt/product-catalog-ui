@@ -1,0 +1,15 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+
+- Take time to develop a migration strategy for the relevant functionality. Document the strategy to a .md file, then start building the new functionality. Retain the old functionality as a reference.
+
+
+
+
+
+
+
+
