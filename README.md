@@ -9,6 +9,10 @@ A modern product catalog interface built with React, TypeScript, and Tailwind CS
 - Responsive design
 - Modern UI with Tailwind CSS
 
+## Documentation
+
+- [Component Documentation](./docs/components/README.md) - Detailed documentation for all React components
+
 ## Getting Started
 
 To install dependencies:
