@@ -31,7 +31,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     if (hasHalfStar) {
       stars.push(
-        <span key="half" className="text-yellow-400">☆</span>
+        <span key="half" className="text-yellow-400">⭐</span>
       );
     }
 
