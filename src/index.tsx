@@ -385,6 +385,7 @@ const server = serve({
       async POST(req) {
         const body = await req.json();
         const code = body.code?.toUpperCase();
+        const orderValue = body.orderValue || 0;
         
         if (!code) {
           return Response.json({
@@ -397,6 +398,33 @@ const server = serve({
           return Response.json({
             error: 'Invalid coupon code'
           }, { status: 404 });
+        }
+        
+        // Validation checks before applying
+        if (!coupon.active) {
+          return Response.json({
+            error: 'This coupon is no longer active'
+          }, { status: 400 });
+        }
+        
+        const now = new Date();
+        const expiry = new Date(coupon.expiryDate);
+        if (now > expiry) {
+          return Response.json({
+            error: 'This coupon has expired'
+          }, { status: 400 });
+        }
+        
+        if (coupon.usedCount >= coupon.usageLimit) {
+          return Response.json({
+            error: 'This coupon has reached its usage limit'
+          }, { status: 400 });
+        }
+        
+        if (orderValue < coupon.minimumOrderValue) {
+          return Response.json({
+            error: `Minimum order value of $${coupon.minimumOrderValue} required`
+          }, { status: 400 });
         }
         
         // Increment usage count
@@ -413,9 +441,9 @@ const server = serve({
     // Public products endpoint (no auth required)
     "/api/products/shop": {
       async GET(req) {
-        // Return only active products for customers
+        // Return only active products for customers (including out of stock items)
         const activeProducts = Array.from(products.values())
-          .filter(product => product.active && product.inventory > 0);
+          .filter(product => product.active);
         
         return Response.json({
           products: activeProducts
