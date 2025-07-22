@@ -43,6 +43,14 @@ export function useProductSearch(
   const [total, setTotal] = useState(0);
   const [offset, setOffset] = useState(0);
 
+  // Keep a ref to the latest offset so callbacks can access it
+  const offsetRef = useRef(0);
+
+  // Sync the ref whenever offset state changes
+  useEffect(() => {
+    offsetRef.current = offset;
+  }, [offset]);
+
   // Debounced search effect
   useEffect(() => {
     if (!autoSearch) return;
@@ -72,7 +80,8 @@ export function useProductSearch(
       setLoading(true);
       setError(null);
 
-      const currentOffset = reset ? 0 : offset;
+      // Use the ref value to avoid stale closures and unnecessary re-creations
+      const currentOffset = reset ? 0 : offsetRef.current;
       const searchParamsWithOffset = {
         ...params,
         offset: currentOffset,
@@ -83,10 +92,14 @@ export function useProductSearch(
 
       if (reset) {
         setFilteredProducts(result.products);
-        setOffset(searchParamsWithOffset.limit || limit);
+        const newOffset = searchParamsWithOffset.limit || limit;
+        offsetRef.current = newOffset; // keep ref in sync immediately
+        setOffset(newOffset);
       } else {
         setFilteredProducts(prev => [...prev, ...result.products]);
-        setOffset(prev => prev + (searchParamsWithOffset.limit || limit));
+        const newOffset = offsetRef.current + (searchParamsWithOffset.limit || limit);
+        offsetRef.current = newOffset; // update ref before state update
+        setOffset(newOffset);
       }
       
       setTotal(result.total);
@@ -103,7 +116,7 @@ export function useProductSearch(
     } finally {
       setLoading(false);
     }
-  }, [limit, offset]);
+  }, [limit]);
 
   // Trigger search when searchParams change
   useEffect(() => {
