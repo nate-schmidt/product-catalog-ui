@@ -72,7 +72,7 @@ export function useProductSearch(
       setLoading(true);
       setError(null);
 
-      const currentOffset = reset ? 0 : offset;
+      const currentOffset = reset ? 0 : params.offset || 0;
       const searchParamsWithOffset = {
         ...params,
         offset: currentOffset,
@@ -103,7 +103,7 @@ export function useProductSearch(
     } finally {
       setLoading(false);
     }
-  }, [limit, offset]);
+  }, [limit]);
 
   // Trigger search when searchParams change
   useEffect(() => {
@@ -124,9 +124,9 @@ export function useProductSearch(
 
   const loadMore = useCallback(async () => {
     if (!loading && hasMore) {
-      await performSearch(searchParams, false);
+      await performSearch({ ...searchParams, offset }, false);
     }
-  }, [loading, performSearch, searchParams]);
+  }, [loading, hasMore, performSearch, searchParams, offset]);
 
   const clearSearch = useCallback(() => {
     setSearchQuery('');
