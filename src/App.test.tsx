@@ -63,4 +63,74 @@ describe('App', () => {
     expect(flexContainer?.className).toContain('flex-col');
     expect(flexContainer?.className).toContain('items-center');
   });
+
+  test('has responsive design classes', () => {
+    const { container } = render(<App />);
+    const mainContainer = container.querySelector('.max-w-7xl');
+    expect(mainContainer?.className).toContain('mx-auto');
+    expect(mainContainer?.className).toContain('p-8');
+  });
+
+  test('heading has proper typography classes', () => {
+    const { getByRole } = render(<App />);
+    const heading = getByRole('heading', { level: 1 });
+    expect(heading.className).toContain('text-6xl');
+    expect(heading.className).toContain('font-bold');
+    expect(heading.className).toContain('mb-4');
+  });
+
+  test('subtitle has proper typography and layout classes', () => {
+    const { getByText } = render(<App />);
+    const subtitle = getByText('One day I hope to be an ecommerce website.');
+    expect(subtitle.className).toContain('text-2xl');
+    expect(subtitle.className).toContain('max-w-2xl');
+    expect(subtitle.className).toContain('leading-relaxed');
+  });
+
+  test('main container has proper height and spacing', () => {
+    const { container } = render(<App />);
+    const flexContainer = container.querySelector('.min-h-\\[60vh\\]');
+    expect(flexContainer).toBeDefined();
+    expect(flexContainer?.className).toContain('gap-8');
+    expect(flexContainer?.className).toContain('justify-center');
+  });
+
+  test('has proper z-index for layering', () => {
+    const { container } = render(<App />);
+    const mainContainer = container.querySelector('.relative');
+    expect(mainContainer?.className).toContain('z-10');
+  });
+
+  test('renders emoji in heading', () => {
+    const { getByRole } = render(<App />);
+    const heading = getByRole('heading', { level: 1 });
+    expect(heading.textContent).toContain('👋');
+  });
+
+  test('component exports are available', () => {
+    expect(App).toBeDefined();
+    expect(typeof App).toBe('function');
+  });
+
+  test('component renders without props', () => {
+    // Test that component doesn't require any props
+    expect(() => render(<App />)).not.toThrow();
+  });
+
+  test('accessibility: heading has proper level', () => {
+    const { getByRole } = render(<App />);
+    const heading = getByRole('heading', { level: 1 });
+    expect(heading.tagName).toBe('H1');
+  });
+
+  test('accessibility: text content is readable', () => {
+    const { getByRole, getByText } = render(<App />);
+    const heading = getByRole('heading', { level: 1 });
+    const subtitle = getByText('One day I hope to be an ecommerce website.');
+    
+    expect(heading.textContent).toBeTruthy();
+    expect(subtitle.textContent).toBeTruthy();
+    expect(heading.textContent?.length).toBeGreaterThan(0);
+    expect(subtitle.textContent?.length).toBeGreaterThan(0);
+  });
 }); 
