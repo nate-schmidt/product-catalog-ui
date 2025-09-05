@@ -1,22 +1,14 @@
 import { test, expect, describe, beforeEach } from 'bun:test';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { App } from './App';
-import { Window } from 'happy-dom';
+import { setupTestDOM, cleanupTestDOM } from './test-setup';
 
 // Setup DOM environment for tests
-const window = new Window();
-const document = window.document;
-
-(global as any).window = window;
-(global as any).document = document;
-(global as any).navigator = window.navigator;
-(global as any).HTMLElement = window.HTMLElement;
-(global as any).Element = window.Element;
+setupTestDOM();
 
 describe('App', () => {
   beforeEach(() => {
-    cleanup();
-    document.body.innerHTML = '';
+    cleanupTestDOM();
   });
 
   test('renders without crashing', () => {
