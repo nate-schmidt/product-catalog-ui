@@ -2,23 +2,39 @@
 
 @layer base {
   :root {
-    @apply text-[rgba(255,255,255,0.87)] bg-[#242424] font-sans;
+    @apply font-sans;
   }
 
   body {
-    @apply grid place-items-center min-w-[320px] min-h-screen relative m-0;
+    @apply min-w-[320px] min-h-screen relative m-0 bg-gray-50 text-gray-900;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-
+@layer utilities {
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
 
 @keyframes spin {
   from {
-    transform: rotate(0);
+    transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 @media (prefers-reduced-motion) {
