@@ -1,17 +1,63 @@
+import React, { useState } from "react";
 import "./index.css";
+import { CartProvider } from "./CartContext";
+import { Header } from "./components/Header";
+import { ProductCatalog } from "./components/ProductCatalog";
+import { ShoppingCart } from "./components/ShoppingCart";
+import { Checkout } from "./components/Checkout";
+import { OrderSuccess } from "./components/OrderSuccess";
+
+type ViewType = 'products' | 'cart' | 'checkout' | 'success';
 
 export function App() {
+  const [currentView, setCurrentView] = useState<ViewType>('products');
+  const [orderId, setOrderId] = useState<string>('');
+
+  const handleNavigate = (view: ViewType) => {
+    setCurrentView(view);
+  };
+
+  const handleCheckout = () => {
+    setCurrentView('checkout');
+  };
+
+  const handleOrderComplete = (newOrderId: string) => {
+    setOrderId(newOrderId);
+    setCurrentView('success');
+  };
+
+  const handleContinueShopping = () => {
+    setCurrentView('products');
+  };
+
+  const handleBackToCart = () => {
+    setCurrentView('cart');
+  };
+
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case 'products':
+        return <ProductCatalog />;
+      case 'cart':
+        return <ShoppingCart onCheckout={handleCheckout} />;
+      case 'checkout':
+        return <Checkout onOrderComplete={handleOrderComplete} onBack={handleBackToCart} />;
+      case 'success':
+        return <OrderSuccess orderId={orderId} onContinueShopping={handleContinueShopping} />;
+      default:
+        return <ProductCatalog />;
+    }
+  };
+
   return (
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
-        <h1 className="text-6xl font-bold text-white mb-4">
-          Hello World! 👋
-        </h1>
-        <p className="text-2xl text-gray-300 max-w-2xl leading-relaxed">
-          One day I hope to be an ecommerce website.
-        </p>
+    <CartProvider>
+      <div className="min-h-screen bg-gray-50">
+        <Header currentView={currentView} onNavigate={handleNavigate} />
+        <main className="pb-8">
+          {renderCurrentView()}
+        </main>
       </div>
-    </div>
+    </CartProvider>
   );
 }
 
