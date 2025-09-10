@@ -1,0 +1,1 @@
+- Do not start by writing code, we're writing a plan for how to build the given feature.
