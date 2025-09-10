@@ -36,34 +36,37 @@ jobs:
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
           MODEL: gpt-5
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_PREFIX: ci-fix
         run: |
           cursor-agent -p "You are operating in a GitHub Actions runner.
 
-          The GitHub CLI is available as \`gh\` and authenticated via \`GH_TOKEN\`. Git is available. You have write access to repository contents and can comment on pull requests, but you must not create or edit PRs directly.
+          The GitHub CLI is available as \`gh\` and authenticated via \`GH_TOKEN\`. Git is available. You have write access to repository contents and can comment on pull requests.
 
           # Context:
           - Repo: ${{ github.repository }}
           - Owner: ${{ github.repository_owner }}
           - Workflow Run ID: ${{ github.event.workflow_run.id }}
           - Workflow Run URL: ${{ github.event.workflow_run.html_url }}
-          - Fix Branch Prefix: ${{ env.BRANCH_PREFIX }}
 
           # Goal:
-          - Implement an end-to-end CI fix flow driven by the failing PR, creating a separate persistent fix branch and proposing a quick-create PR back into the original PR's branch.
+          - Automatically fix CI failures by committing directly to the PR branch that caused the failure.
 
           # Requirements:
-          1) Identify the PR associated with the failed workflow run and determine its base and head branches. Let HEAD_REF be the PR's head branch (the contributor/origin branch).
-          2) Maintain a persistent fix branch for this PR head using the Fix Branch Prefix from Context. Create it if missing, update it otherwise, and push changes to origin.
-          3) Attempt to resolve the CI failure by making minimal, targeted edits consistent with the repo's style. Keep changes scoped and safe.
-          4) You do NOT have permission to create PRs. Instead, post or update a single natural-language PR comment (1–2 sentences) that briefly explains the CI fix and includes an inline compare link to quick-create a PR.
+          1) Identify the PR associated with the failed workflow run and determine its head branch (the contributor/origin branch).
+          2) Checkout the PR's head branch and attempt to resolve the CI failure by making minimal, targeted edits consistent with the repo's style.
+          3) If a fix is possible, commit the changes directly to the PR branch and push them.
+          4) Post a comment on the PR explaining what was fixed.
 
           # Inputs and conventions:
-          - Use \`gh api\`, \`gh run view\`, \`gh pr view\`, \`gh pr diff\`, \`gh pr list\`, \`gh run download\`, and git commands as needed to discover the failing PR and branches.
+          - Use \`gh api\`, \`gh run view\`, \`gh pr view\`, \`gh pr diff\`, \`gh run download\`, and git commands as needed to discover the failing PR and branches.
+          - Checkout the PR head branch: \`git checkout <PR_HEAD_BRANCH>\`
+          - Make minimal, safe changes to fix the CI failure.
+          - Commit with message: \`fix: resolve CI failure - <brief description>\`
+          - Push changes: \`git push origin <PR_HEAD_BRANCH>\`
+          - Comment on PR: \`gh pr comment <PR_NUMBER> --body \"🤖 Auto-fixed CI failure: <description>\"\`
           - Avoid duplicate comments; if a previous bot comment exists, update it instead of posting a new one.
           - If no actionable fix is possible, make no changes and post no comment.
 
           # Deliverables when updates occur:
-          - Pushed commits to the persistent fix branch for this PR head.
-          - A single natural-language PR comment on the original PR that includes the inline compare link above.
+          - Commits pushed directly to the PR's head branch.
+          - A comment posted on the PR explaining the fix.
           " --force --model "$MODEL" --output-format=text
