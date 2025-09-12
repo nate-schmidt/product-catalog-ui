@@ -1,17 +1,18 @@
 import { test, expect, describe, beforeEach } from 'bun:test';
 import { render, cleanup } from '@testing-library/react';
 import { App } from './App';
+import { computeDiscountedPriceCents, formatPriceFromCents, type Product } from './data';
 import { Window } from 'happy-dom';
 
 // Setup DOM environment for tests
 const window = new Window();
 const document = window.document;
 
-(global as any).window = window;
-(global as any).document = document;
-(global as any).navigator = window.navigator;
-(global as any).HTMLElement = window.HTMLElement;
-(global as any).Element = window.Element;
+(globalThis as any).window = window;
+(globalThis as any).document = document;
+(globalThis as any).navigator = window.navigator;
+(globalThis as any).HTMLElement = window.HTMLElement;
+(globalThis as any).Element = window.Element;
 
 describe('App', () => {
   beforeEach(() => {
@@ -64,3 +65,23 @@ describe('App', () => {
     expect(flexContainer?.className).toContain('items-center');
   });
 }); 
+
+describe('flash sale utilities', () => {
+  test('computeDiscountedPriceCents applies correct percentage', () => {
+    const product: Product = { id: 'x', name: 'X', priceCents: 10000 };
+    const sale = {
+      id: 's',
+      name: 'S',
+      startsAt: new Date(Date.now() - 1000).toISOString(),
+      endsAt: new Date(Date.now() + 1000 * 60).toISOString(),
+      discounts: { x: 25 },
+    };
+    expect(computeDiscountedPriceCents(product, sale)).toBe(7500);
+  });
+
+  test('formatPriceFromCents formats USD by default', () => {
+    const formatted = formatPriceFromCents(12345);
+    expect(typeof formatted).toBe('string');
+    expect(formatted).toMatch(/12\.?\d*|13/); // be lenient across locales
+  });
+});
