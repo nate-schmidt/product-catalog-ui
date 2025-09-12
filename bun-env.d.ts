@@ -15,3 +15,64 @@ declare module "*.module.css" {
   const classes: { readonly [key: string]: string };
   export = classes;
 }
+
+declare module "*.html" {
+  /**
+   * The HTML content as a string for Bun's HTML plugin/loader
+   */
+  const html: string;
+  export default html;
+}
+
+// Minimal ambient shims to satisfy TypeScript when node_modules types are unavailable
+declare module "react" {
+  export const useEffect: any;
+  export const useMemo: any;
+  export const useRef: any;
+  export const useState: any;
+  const React: any;
+  export default React;
+}
+
+declare module "react/jsx-runtime" {
+  export const jsx: any;
+  export const jsxs: any;
+  export const Fragment: any;
+}
+
+declare module "react-dom/client" {
+  export const createRoot: any;
+}
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    [elemName: string]: any;
+  }
+}
+
+declare module "bun" {
+  export const serve: any;
+}
+
+declare const Bun: any;
+
+declare module "bun:test" {
+  export const test: any;
+  export const expect: any;
+  export const describe: any;
+  export const beforeEach: any;
+}
+
+declare module "@testing-library/react" {
+  export const render: any;
+  export const cleanup: any;
+}
+
+declare module "happy-dom" {
+  export class Window {
+    document: any;
+    navigator: any;
+    HTMLElement: any;
+    Element: any;
+  }
+}
