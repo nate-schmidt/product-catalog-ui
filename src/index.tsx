@@ -1,10 +1,28 @@
 import { serve } from "bun";
 import index from "./index.html";
+import { furnitureProducts } from "./data/products";
 
 const server = serve({
   routes: {
     // Serve index.html for all unmatched routes.
     "/*": index,
+
+    "/api/products": {
+      async GET(req) {
+        return Response.json(furnitureProducts);
+      },
+    },
+
+    "/api/products/:id": async req => {
+      const id = req.params.id;
+      const product = furnitureProducts.find(p => p.id === id);
+      
+      if (!product) {
+        return Response.json({ error: "Product not found" }, { status: 404 });
+      }
+      
+      return Response.json(product);
+    },
 
     "/api/hello": {
       async GET(req) {
