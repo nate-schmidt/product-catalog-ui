@@ -1,0 +1,7 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+- Whenever you're working on UI changes, refer to our new UI directory /frontend rather than the legacy directory /legacy-frontend

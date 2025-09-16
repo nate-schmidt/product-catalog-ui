@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCart } from '../contexts/CartContext';
 import { formatPrice, formatStock, getStockStatusColor, formatDimensions } from '../utils/formatters';
+import PillGroup from './PillGroup';
 
 function ProductCatalog() {
   const { 
@@ -99,72 +100,78 @@ function ProductCatalog() {
       {availableFilters && (
         <div style={{ 
           display: 'flex', 
-          gap: '1rem', 
+          flexDirection: 'column',
+          gap: '1.5rem', 
           marginBottom: '2rem', 
-          padding: '0 1rem',
-          flexWrap: 'wrap'
+          padding: '0 1rem'
         }}>
-          {/* Category Filter */}
-          <select
-            value={filters.category || ''}
-            onChange={(e) => setFilters({ ...filters, category: e.target.value || undefined })}
-            style={{
-              padding: '0.5rem',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '0.9rem'
-            }}
-          >
-            <option value="">All Categories</option>
-            {availableFilters.categories.map(category => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
+          {/* Category Filter Pills */}
+          <PillGroup
+            label="Categories"
+            options={availableFilters.categories}
+            selectedValue={filters.category}
+            onSelectionChange={(value) => setFilters({ ...filters, category: value })}
+            variant="primary"
+            size="medium"
+          />
 
-          {/* Material Filter */}
-          <select
-            value={filters.material || ''}
-            onChange={(e) => setFilters({ ...filters, material: e.target.value || undefined })}
-            style={{
-              padding: '0.5rem',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '0.9rem'
-            }}
-          >
-            <option value="">All Materials</option>
-            {availableFilters.materials.map(material => (
-              <option key={material} value={material}>{material}</option>
-            ))}
-          </select>
+          {/* Material Filter Pills */}
+          <PillGroup
+            label="Materials"
+            options={availableFilters.materials}
+            selectedValue={filters.material}
+            onSelectionChange={(value) => setFilters({ ...filters, material: value })}
+            variant="secondary"
+            size="medium"
+          />
 
-          {/* In Stock Filter */}
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <input
-              type="checkbox"
-              checked={filters.inStock || false}
-              onChange={(e) => setFilters({ ...filters, inStock: e.target.checked || undefined })}
-            />
-            <span style={{ fontSize: '0.9rem' }}>In Stock Only</span>
-          </label>
+          {/* In Stock Filter and Clear Filters */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            flexWrap: 'wrap'
+          }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <input
+                type="checkbox"
+                checked={filters.inStock || false}
+                onChange={(e) => setFilters({ ...filters, inStock: e.target.checked || undefined })}
+                style={{
+                  width: '16px',
+                  height: '16px',
+                  accentColor: '#007bff'
+                }}
+              />
+              <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#333' }}>In Stock Only</span>
+            </label>
 
-          {/* Clear Filters */}
-          {(searchTerm || Object.keys(filters).length > 0) && (
-            <button
-              onClick={clearFilters}
-              style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: '#6c757d',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '0.9rem'
-              }}
-            >
-              Clear Filters
-            </button>
-          )}
+            {/* Clear Filters */}
+            {(searchTerm || Object.keys(filters).length > 0) && (
+              <button
+                onClick={clearFilters}
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  transition: 'background-color 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#c82333';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#dc3545';
+                }}
+              >
+                Clear All Filters
+              </button>
+            )}
+          </div>
         </div>
       )}
 

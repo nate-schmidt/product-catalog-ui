@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product, CartItem, SearchFilters, ProductFilters } from '../types/product';
+import { CouponSummary, CouponValidationResponse } from '../types/coupon';
 import { productService } from '../services/productService';
+import { couponService } from '../services/couponService';
 import { getUserFriendlyErrorMessage } from '../utils/errorHandler';
 
 interface CartContextType {
@@ -10,8 +12,18 @@ interface CartContextType {
   removeFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   getTotalItems: () => number;
+  getSubtotal: () => number;
   getTotalPrice: () => number;
   clearCart: () => void;
+  
+  // Coupon functionality
+  couponCode: string;
+  appliedCoupon: CouponSummary | null;
+  discountAmount: number;
+  couponError: string | null;
+  isApplyingCoupon: boolean;
+  applyCoupon: (code: string) => Promise<void>;
+  removeCoupon: () => void;
   
   // Product management
   products: Product[];
@@ -50,6 +62,13 @@ interface CartProviderProps {
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Cart state
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  
+  // Coupon state
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<CouponSummary | null>(null);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [couponError, setCouponError] = useState<string | null>(null);
+  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
   
   // Product state
   const [products, setProducts] = useState<Product[]>([]);
@@ -199,17 +218,94 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const getTotalPrice = () => {
+  const getSubtotal = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  const getTotalPrice = () => {
+    const subtotal = getSubtotal();
+    return subtotal - discountAmount;
   };
 
   const clearCart = () => {
     setCartItems([]);
+    // Clear coupon when cart is cleared
+    removeCoupon();
   };
 
   const clearFilters = () => {
     setFilters({});
     setSearchTerm('');
+  };
+
+  // Coupon functions
+  const applyCoupon = async (code: string) => {
+    if (!code.trim()) {
+      setCouponError('Please enter a coupon code');
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      setCouponError('Add items to your cart before applying a coupon');
+      return;
+    }
+
+    setIsApplyingCoupon(true);
+    setCouponError(null);
+
+    try {
+      const response: CouponValidationResponse = await couponService.validateCoupon(code, cartItems);
+      
+      if (response.valid) {
+        setCouponCode(code.trim().toUpperCase());
+        setAppliedCoupon(response.coupon);
+        setDiscountAmount(response.discountAmount);
+        setCouponError(null);
+      } else {
+        setCouponError(response.messages.join(', '));
+        setCouponCode(code.trim().toUpperCase()); // Keep the code in the field
+      }
+    } catch (err) {
+      const errorMessage = getUserFriendlyErrorMessage(err);
+      setCouponError(errorMessage);
+      console.error('Failed to apply coupon:', err);
+    } finally {
+      setIsApplyingCoupon(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setCouponCode('');
+    setAppliedCoupon(null);
+    setDiscountAmount(0);
+    setCouponError(null);
+  };
+
+  // Re-validate coupon when cart changes
+  const revalidateCoupon = async () => {
+    if (appliedCoupon && cartItems.length > 0) {
+      try {
+        const response: CouponValidationResponse = await couponService.validateCoupon(
+          appliedCoupon.code, 
+          cartItems
+        );
+        
+        if (!response.valid) {
+          // Coupon is no longer valid, remove it
+          removeCoupon();
+          setError(`Coupon ${appliedCoupon.code} is no longer valid: ${response.messages.join(', ')}`);
+        } else {
+          // Update discount amount if it changed
+          setDiscountAmount(response.discountAmount);
+        }
+      } catch (err) {
+        console.error('Failed to revalidate coupon:', err);
+        // Don't remove coupon on API error, just log it
+      }
+    } else if (appliedCoupon && cartItems.length === 0) {
+      // Cart is empty, remove coupon
+      removeCoupon();
+    }
   };
 
   // Update search term handler
@@ -236,6 +332,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return () => clearTimeout(timeoutId);
   }, [searchTerm, filters]);
 
+  // Re-validate coupon when cart items change
+  useEffect(() => {
+    revalidateCoupon();
+  }, [cartItems]);
+
   const value: CartContextType = {
     // Cart functionality
     cartItems,
@@ -243,8 +344,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     removeFromCart,
     updateQuantity,
     getTotalItems,
+    getSubtotal,
     getTotalPrice,
     clearCart,
+    
+    // Coupon functionality
+    couponCode,
+    appliedCoupon,
+    discountAmount,
+    couponError,
+    isApplyingCoupon,
+    applyCoupon,
+    removeCoupon,
     
     // Product management
     products,

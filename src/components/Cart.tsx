@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { formatPrice, formatDimensions } from '../utils/formatters';
 
 function Cart() {
-  const { cartItems, removeFromCart, updateQuantity, getTotalItems, getTotalPrice, clearCart } = useCart();
+  const { 
+    cartItems, 
+    removeFromCart, 
+    updateQuantity, 
+    getTotalItems, 
+    getSubtotal,
+    getTotalPrice, 
+    clearCart,
+    couponCode,
+    appliedCoupon,
+    discountAmount,
+    couponError,
+    isApplyingCoupon,
+    applyCoupon,
+    removeCoupon
+  } = useCart();
+
+  const [couponInput, setCouponInput] = useState(couponCode);
 
   if (cartItems.length === 0) {
     return (
@@ -193,6 +210,111 @@ function Cart() {
           </div>
         ))}
 
+        {/* Coupon Section */}
+        <div style={{
+          marginTop: '1.5rem',
+          padding: '1.5rem',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px',
+          border: '1px solid #dee2e6'
+        }}>
+          <h3 style={{ margin: '0 0 1rem 0', color: '#333', fontSize: '1.1rem' }}>
+            Coupon Code
+          </h3>
+          
+          {appliedCoupon ? (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: '#d4edda',
+              border: '1px solid #c3e6cb',
+              borderRadius: '6px',
+              padding: '0.75rem 1rem',
+              marginBottom: '1rem'
+            }}>
+              <div>
+                <div style={{ fontWeight: 'bold', color: '#155724', marginBottom: '0.25rem' }}>
+                  Coupon Applied: {appliedCoupon.code}
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#155724' }}>
+                  {appliedCoupon.discountType === 'PERCENTAGE' 
+                    ? `${appliedCoupon.discountValue}% off`
+                    : `$${appliedCoupon.discountValue} off`
+                  }
+                  {appliedCoupon.description && ` - ${appliedCoupon.description}`}
+                </div>
+              </div>
+              <button
+                onClick={removeCoupon}
+                style={{
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem'
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+              <input
+                type="text"
+                value={couponInput}
+                onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                placeholder="Enter coupon code"
+                style={{
+                  flex: 1,
+                  padding: '0.75rem',
+                  border: '1px solid #ced4da',
+                  borderRadius: '6px',
+                  fontSize: '1rem'
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    applyCoupon(couponInput);
+                  }
+                }}
+              />
+              <button
+                onClick={() => applyCoupon(couponInput)}
+                disabled={isApplyingCoupon || !couponInput.trim()}
+                style={{
+                  backgroundColor: isApplyingCoupon || !couponInput.trim() ? '#6c757d' : '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '6px',
+                  cursor: isApplyingCoupon || !couponInput.trim() ? 'not-allowed' : 'pointer',
+                  fontSize: '1rem',
+                  fontWeight: 'bold'
+                }}
+              >
+                {isApplyingCoupon ? 'Applying...' : 'Apply'}
+              </button>
+            </div>
+          )}
+          
+          {couponError && (
+            <div style={{
+              backgroundColor: '#f8d7da',
+              color: '#721c24',
+              border: '1px solid #f5c6cb',
+              borderRadius: '6px',
+              padding: '0.75rem',
+              marginBottom: '1rem',
+              fontSize: '0.9rem'
+            }}>
+              {couponError}
+            </div>
+          )}
+        </div>
+
+        {/* Totals Section */}
         <div style={{
           marginTop: '1.5rem',
           padding: '1.5rem',
@@ -204,14 +326,49 @@ function Cart() {
               <div style={{ fontSize: '0.9rem', color: '#666', marginBottom: '0.25rem' }}>
                 Total Items: {getTotalItems()}
               </div>
-              <div style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                color: '#333'
-              }}>
-                Total: {formatPrice(getTotalPrice())}
+              
+              <div style={{ marginBottom: '0.5rem' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  fontSize: '1.1rem',
+                  marginBottom: '0.25rem'
+                }}>
+                  <span>Subtotal:</span>
+                  <span>{formatPrice(getSubtotal())}</span>
+                </div>
+                
+                {appliedCoupon && discountAmount > 0 && (
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center',
+                    fontSize: '1rem',
+                    color: '#28a745',
+                    marginBottom: '0.25rem'
+                  }}>
+                    <span>Discount ({appliedCoupon.code}):</span>
+                    <span>-{formatPrice(discountAmount)}</span>
+                  </div>
+                )}
+                
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                  color: '#333',
+                  borderTop: '2px solid #dee2e6',
+                  paddingTop: '0.5rem'
+                }}>
+                  <span>Total:</span>
+                  <span>{formatPrice(getTotalPrice())}</span>
+                </div>
               </div>
             </div>
+            
             <button
               style={{
                 backgroundColor: '#28a745',
