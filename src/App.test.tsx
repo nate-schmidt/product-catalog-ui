@@ -23,44 +23,29 @@ describe('App', () => {
     render(<App />);
   });
 
-  test('displays the main heading', () => {
-    const { getByRole } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
-  });
-
-  test('displays the subtitle text', () => {
+  test('renders product catalog component', () => {
     const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    expect(subtitle).toBeDefined();
+    // ProductCatalog shows "Loading products..." initially
+    expect(getByText('Loading products...')).toBeDefined();
   });
 
-  test('has correct CSS classes for styling', () => {
+  test('renders cart component', () => {
+    const { getByText } = render(<App />);
+    // Cart shows "Your Cart is Empty" initially
+    expect(getByText('Your Cart is Empty')).toBeDefined();
+  });
+
+  test('has proper layout structure with padding and min-height', () => {
     const { container } = render(<App />);
-    const mainContainer = container.querySelector('.max-w-7xl');
-    expect(mainContainer).toBeDefined();
-    expect(mainContainer?.className).toContain('max-w-7xl');
-    expect(mainContainer?.className).toContain('mx-auto');
-    expect(mainContainer?.className).toContain('p-8');
-    expect(mainContainer?.className).toContain('text-center');
+    const mainContainer = container.firstChild as HTMLElement;
+    expect(mainContainer.style.padding).toBe('2rem');
+    expect(mainContainer.style.minHeight).toBe('100vh');
   });
 
-  test('has correct text color classes', () => {
-    const { getByRole, getByText } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    
-    expect(heading.className).toContain('text-white');
-    expect(subtitle.className).toContain('text-gray-300');
-  });
-
-  test('has proper layout structure', () => {
-    const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
+  test('wraps components in CartProvider context', () => {
+    // If CartProvider is working, the components should render without context errors
+    const { getByText } = render(<App />);
+    expect(getByText('Loading products...')).toBeDefined();
+    expect(getByText('Your Cart is Empty')).toBeDefined();
   });
 }); 

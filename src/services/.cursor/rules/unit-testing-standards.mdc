@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+
+- When writing tests, use `test()` not `it()`.
+- When writing tests, use `expect()` not `assert()`.
+- prefer passing in sets of test data and then using a loop to run the test for each input set
