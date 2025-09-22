@@ -7,10 +7,15 @@
 
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import { CartProvider } from "./contexts/CartContext";
 
 function start() {
   const root = createRoot(document.getElementById("root")!);
-  root.render(<App />);
+  root.render(
+    <CartProvider>
+      <App />
+    </CartProvider>
+  );
 }
 
 if (document.readyState === "loading") {
