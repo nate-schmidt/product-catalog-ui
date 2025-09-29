@@ -6,10 +6,10 @@
   "main": "src/index.tsx",
   "module": "src/index.tsx",
   "scripts": {
-    "dev": "bun --hot src/index.tsx",
-    "start": "NODE_ENV=production bun src/index.tsx",
-    "build": "bun run build.ts",
-    "test": "bun test"
+    "dev": "vite dev",
+    "start": "vite preview",
+    "build": "vite build",
+    "test": "npm run test"
   },
   "dependencies": {
     "bun-plugin-tailwind": "^0.0.14",
@@ -24,6 +24,9 @@
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "happy-dom": "^18.0.1"
+    "@vitejs/plugin-react": "^5.0.2",
+    "happy-dom": "^18.0.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
   }
 }
