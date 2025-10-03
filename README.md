@@ -4,10 +4,16 @@ A modern product catalog interface built with React, TypeScript, and Tailwind CS
 
 ## Features
 
-- Browse product catalog
-- Search and filter products
-- Responsive design
-- Modern UI with Tailwind CSS
+- **Flash Sales**: Time-limited sales with steep discounts
+  - Real-time countdown timer
+  - Dynamic discount badges
+  - Stock indicators with progress bars
+  - Responsive product grid
+- Browse product catalog with beautiful cards
+- Product ratings and reviews
+- Responsive design optimized for all devices
+- Modern UI with Tailwind CSS gradients and animations
+- Smooth hover effects and transitions
 
 ## Getting Started
 
