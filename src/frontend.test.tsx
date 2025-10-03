@@ -14,6 +14,8 @@ declare const global: any;
 describe("frontend bootstrap", () => {
   beforeEach(() => {
     renderMock.mockReset();
+    // Reset createRoot call counts between tests to avoid cross-test leakage
+    (createRoot as any).mockReset?.();
     // Minimal document implementation sufficient for index.tsx
     const listeners: Record<string, Function[]> = {};
     const rootEl = { id: "root" } as any;
