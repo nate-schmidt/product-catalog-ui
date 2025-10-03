@@ -42,9 +42,9 @@ export function FlashSaleSection({ flashSale }: FlashSaleSectionProps) {
       <div className="mb-8 sm:mb-12">
         <div className="text-center mb-6 sm:mb-8">
           <div className="inline-block animate-pulse">
-            <h1 className="text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 mb-2">
+            <h2 className="text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 mb-2">
               {flashSale.title}
-            </h1>
+            </h2>
           </div>
           <p className="text-lg sm:text-xl text-gray-300 mb-6">
             Unbelievable deals that won't last long! Grab them before they're gone! 🔥
