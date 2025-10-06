@@ -23,44 +23,43 @@ describe('App', () => {
     render(<App />);
   });
 
-  test('displays the main heading', () => {
+  test('renders header title', () => {
     const { getByRole } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
+    const shopHeading = getByRole('heading', { name: 'My Shop', level: 1 });
+    expect(shopHeading).toBeDefined();
   });
 
-  test('displays the subtitle text', () => {
-    const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    expect(subtitle).toBeDefined();
+  test('renders products section title', () => {
+    const { getByRole } = render(<App />);
+    const productsHeading = getByRole('heading', { name: 'Our Products', level: 1 });
+    expect(productsHeading).toBeDefined();
   });
 
-  test('has correct CSS classes for styling', () => {
+  test('has header container styling classes', () => {
     const { container } = render(<App />);
-    const mainContainer = container.querySelector('.max-w-7xl');
-    expect(mainContainer).toBeDefined();
-    expect(mainContainer?.className).toContain('max-w-7xl');
-    expect(mainContainer?.className).toContain('mx-auto');
-    expect(mainContainer?.className).toContain('p-8');
-    expect(mainContainer?.className).toContain('text-center');
+    const headerContainer = container.querySelector('header .max-w-7xl');
+    expect(headerContainer).toBeDefined();
+    expect(headerContainer?.className).toContain('max-w-7xl');
+    expect(headerContainer?.className).toContain('mx-auto');
+    expect(headerContainer?.className).toContain('px-8');
+    expect(headerContainer?.className).toContain('py-4');
+    expect(headerContainer?.className).toContain('flex');
+    expect(headerContainer?.className).toContain('items-center');
+    expect(headerContainer?.className).toContain('justify-between');
   });
 
-  test('has correct text color classes', () => {
-    const { getByRole, getByText } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    
-    expect(heading.className).toContain('text-white');
-    expect(subtitle.className).toContain('text-gray-300');
+  test('shows Add to Cart buttons', () => {
+    const { getAllByText } = render(<App />);
+    const addButtons = getAllByText('Add to Cart');
+    expect(addButtons.length).toBeGreaterThan(0);
   });
 
-  test('has proper layout structure', () => {
+  test('brand section has proper layout classes', () => {
     const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
+    const shopHeading = getByRole('heading', { name: 'My Shop', level: 1 });
+    const brandContainer = shopHeading.parentElement;
+    expect(brandContainer).toBeDefined();
+    expect(brandContainer?.className).toContain('flex');
+    expect(brandContainer?.className).toContain('items-center');
   });
-}); 
+});
