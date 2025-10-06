@@ -1,5 +1,5 @@
 import { test, expect, describe, beforeEach } from 'bun:test';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { App } from './App';
 import { Window } from 'happy-dom';
 
@@ -13,6 +13,20 @@ const document = window.document;
 (global as any).HTMLElement = window.HTMLElement;
 (global as any).Element = window.Element;
 
+// Mock fetch for API calls
+(global as any).fetch = async (url: string, options?: any) => {
+  if (url === '/api/inventory' && (!options || options.method === 'GET')) {
+    return {
+      ok: true,
+      json: async () => [],
+    };
+  }
+  return {
+    ok: true,
+    json: async () => ({}),
+  };
+};
+
 describe('App', () => {
   beforeEach(() => {
     cleanup();
@@ -23,44 +37,44 @@ describe('App', () => {
     render(<App />);
   });
 
-  test('displays the main heading', () => {
-    const { getByRole } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
+  test('displays the inventory management heading', async () => {
+    const { getByText } = render(<App />);
+    await waitFor(() => {
+      const heading = getByText('Inventory Management');
+      expect(heading).toBeDefined();
+    });
   });
 
-  test('displays the subtitle text', () => {
+  test('displays the subtitle text', async () => {
     const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    expect(subtitle).toBeDefined();
+    await waitFor(() => {
+      const subtitle = getByText('Manage your product inventory');
+      expect(subtitle).toBeDefined();
+    });
   });
 
   test('has correct CSS classes for styling', () => {
     const { container } = render(<App />);
-    const mainContainer = container.querySelector('.max-w-7xl');
+    const mainContainer = container.querySelector('.min-h-screen');
     expect(mainContainer).toBeDefined();
-    expect(mainContainer?.className).toContain('max-w-7xl');
-    expect(mainContainer?.className).toContain('mx-auto');
-    expect(mainContainer?.className).toContain('p-8');
-    expect(mainContainer?.className).toContain('text-center');
+    expect(mainContainer?.className).toContain('min-h-screen');
+    expect(mainContainer?.className).toContain('bg-gradient-to-br');
   });
 
-  test('has correct text color classes', () => {
-    const { getByRole, getByText } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    
-    expect(heading.className).toContain('text-white');
-    expect(subtitle.className).toContain('text-gray-300');
+  test('displays add new item button', async () => {
+    const { getByText } = render(<App />);
+    await waitFor(() => {
+      const addButton = getByText(/Add New Item/i);
+      expect(addButton).toBeDefined();
+    });
   });
 
-  test('has proper layout structure', () => {
-    const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
+  test('has proper gradient background', () => {
+    const { container } = render(<App />);
+    const bgContainer = container.querySelector('.bg-gradient-to-br');
+    expect(bgContainer).toBeDefined();
+    expect(bgContainer?.className).toContain('from-gray-900');
+    expect(bgContainer?.className).toContain('via-gray-800');
+    expect(bgContainer?.className).toContain('to-gray-900');
   });
 }); 
