@@ -101,3 +101,8 @@ export const getSortedProducts = async (
       return products;
   }
 };
+
+// Provide a named export expected by UI code
+export const ProductService = {
+  listProducts: getAllProducts,
+};
