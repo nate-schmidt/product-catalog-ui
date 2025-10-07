@@ -1,0 +1,165 @@
+[
+  {
+    "id": "prod-001",
+    "title": "Premium Wireless Headphones",
+    "description": "High-fidelity audio with active noise cancellation and 30-hour battery life.",
+    "priceCents": 29999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.5,
+    "badges": ["sale", "new"],
+    "inventory": 45
+  },
+  {
+    "id": "prod-002",
+    "title": "Smart Watch Pro",
+    "description": "Track your fitness goals with advanced health monitoring features.",
+    "priceCents": 39999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.8,
+    "badges": ["new"],
+    "inventory": 30,
+    "variants": [
+      {
+        "id": "var-black",
+        "name": "Black",
+        "inventory": 15
+      },
+      {
+        "id": "var-silver",
+        "name": "Silver",
+        "inventory": 15
+      }
+    ]
+  },
+  {
+    "id": "prod-003",
+    "title": "Minimalist Backpack",
+    "description": "Sleek design with dedicated laptop compartment and water-resistant material.",
+    "priceCents": 7999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.2,
+    "inventory": 120
+  },
+  {
+    "id": "prod-004",
+    "title": "Mechanical Keyboard",
+    "description": "RGB backlit mechanical switches for the ultimate typing experience.",
+    "priceCents": 14999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.7,
+    "badges": ["sale"],
+    "inventory": 60
+  },
+  {
+    "id": "prod-005",
+    "title": "Portable Bluetooth Speaker",
+    "description": "Compact design with powerful 360° sound and waterproof build.",
+    "priceCents": 8999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.4,
+    "inventory": 85
+  },
+  {
+    "id": "prod-006",
+    "title": "USB-C Hub Adapter",
+    "description": "7-in-1 multiport hub with HDMI, USB 3.0, SD card reader, and more.",
+    "priceCents": 4999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.1,
+    "inventory": 200
+  },
+  {
+    "id": "prod-007",
+    "title": "Wireless Mouse",
+    "description": "Ergonomic design with adjustable DPI and long-lasting battery.",
+    "priceCents": 3499,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.6,
+    "inventory": 150
+  },
+  {
+    "id": "prod-008",
+    "title": "Phone Stand & Charger",
+    "description": "Fast wireless charging with adjustable viewing angles.",
+    "priceCents": 2999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1591290619762-9085c06dd2d8?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.3,
+    "badges": ["limited"],
+    "inventory": 12
+  },
+  {
+    "id": "prod-009",
+    "title": "LED Desk Lamp",
+    "description": "Adjustable brightness and color temperature for optimal lighting.",
+    "priceCents": 5999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.5,
+    "inventory": 75
+  },
+  {
+    "id": "prod-010",
+    "title": "Cable Management Kit",
+    "description": "Keep your desk organized with clips, sleeves, and cable ties.",
+    "priceCents": 1999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.0,
+    "inventory": 250
+  },
+  {
+    "id": "prod-011",
+    "title": "4K Webcam",
+    "description": "Crystal clear video calls with auto-focus and built-in microphone.",
+    "priceCents": 12999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1588508065123-287b28e013da?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.6,
+    "badges": ["new"],
+    "inventory": 40
+  },
+  {
+    "id": "prod-012",
+    "title": "Noise-Cancelling Earbuds",
+    "description": "Truly wireless with active noise cancellation and touch controls.",
+    "priceCents": 17999,
+    "currency": "USD",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=400&fit=crop"
+    ],
+    "rating": 4.7,
+    "badges": ["sale"],
+    "inventory": 0
+  }
+]
+
