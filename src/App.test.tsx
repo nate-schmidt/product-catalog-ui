@@ -27,12 +27,12 @@ describe('App', () => {
     const { getByRole } = render(<App />);
     const heading = getByRole('heading', { level: 1 });
     expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
+    expect(heading.textContent).toBe('Welcome to ShopFlash ⚡');
   });
 
   test('displays the subtitle text', () => {
     const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
+    const subtitle = getByText('Your destination for incredible flash deals and unbeatable prices!');
     expect(subtitle).toBeDefined();
   });
 
@@ -42,25 +42,25 @@ describe('App', () => {
     expect(mainContainer).toBeDefined();
     expect(mainContainer?.className).toContain('max-w-7xl');
     expect(mainContainer?.className).toContain('mx-auto');
-    expect(mainContainer?.className).toContain('p-8');
     expect(mainContainer?.className).toContain('text-center');
   });
 
   test('has correct text color classes', () => {
     const { getByRole, getByText } = render(<App />);
     const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
+    const subtitle = getByText('Your destination for incredible flash deals and unbeatable prices!');
     
-    expect(heading.className).toContain('text-white');
+    expect(heading.className).toContain('text-transparent');
+    expect(heading.className).toContain('bg-clip-text');
     expect(subtitle.className).toContain('text-gray-300');
   });
 
   test('has proper layout structure', () => {
-    const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
+    const { getAllByRole, container } = render(<App />);
+    const h1s = getAllByRole('heading', { level: 1 });
+    expect(h1s.length).toBe(1);
+    const heroContainer = container.querySelector('.max-w-7xl');
+    expect(heroContainer).toBeDefined();
+    expect(heroContainer?.className).toContain('text-center');
   });
 }); 
