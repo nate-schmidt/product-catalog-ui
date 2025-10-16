@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+
+- When writing tests, use `test()` not `it()`.
