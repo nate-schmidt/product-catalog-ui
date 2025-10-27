@@ -1,17 +1,78 @@
+import React, { useState } from 'react';
+import { CartProvider } from './contexts/CartContext';
+import { Header } from './components/Header';
+import { ProductCatalog } from './components/ProductCatalog';
+import { CartSidebar } from './components/CartSidebar';
+import { CheckoutPage } from './components/CheckoutPage';
+import { OrderConfirmation } from './components/OrderConfirmation';
 import "./index.css";
 
+type AppView = 'catalog' | 'checkout' | 'confirmation';
+
 export function App() {
+  const [currentView, setCurrentView] = useState<AppView>('catalog');
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [completedOrderId, setCompletedOrderId] = useState<string | null>(null);
+
+  const handleCartToggle = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    setCurrentView('checkout');
+  };
+
+  const handleOrderComplete = (orderId: string) => {
+    setCompletedOrderId(orderId);
+    setCurrentView('confirmation');
+  };
+
+  const handleBackToCatalog = () => {
+    setCurrentView('catalog');
+    setCompletedOrderId(null);
+  };
+
+  const handleBackToCart = () => {
+    setCurrentView('catalog');
+    setIsCartOpen(true);
+  };
+
   return (
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
-        <h1 className="text-6xl font-bold text-white mb-4">
-          Hello World! 👋
-        </h1>
-        <p className="text-2xl text-gray-300 max-w-2xl leading-relaxed">
-          One day I hope to be an ecommerce website.
-        </p>
+    <CartProvider>
+      <div className="min-h-screen bg-gray-50">
+        <Header 
+          onCartClick={handleCartToggle}
+          onLogoClick={handleBackToCatalog}
+        />
+
+        <main>
+          {currentView === 'catalog' && (
+            <ProductCatalog />
+          )}
+
+          {currentView === 'checkout' && (
+            <CheckoutPage
+              onOrderComplete={handleOrderComplete}
+              onBack={handleBackToCart}
+            />
+          )}
+
+          {currentView === 'confirmation' && completedOrderId && (
+            <OrderConfirmation
+              orderId={completedOrderId}
+              onContinueShopping={handleBackToCatalog}
+            />
+          )}
+        </main>
+
+        <CartSidebar
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          onCheckout={handleCheckout}
+        />
       </div>
-    </div>
+    </CartProvider>
   );
 }
 
