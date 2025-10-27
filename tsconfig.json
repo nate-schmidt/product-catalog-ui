@@ -4,6 +4,7 @@
     "module": "Preserve",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "allowJs": true,
     "strict": true,
     "skipLibCheck": true,
@@ -11,7 +12,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["bun-types", "bun"]
   },
   "exclude": ["dist", "node_modules"]
 }
