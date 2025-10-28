@@ -15,3 +15,17 @@ declare module "*.module.css" {
   const classes: { readonly [key: string]: string };
   export = classes;
 }
+
+// Minimal ambient types to satisfy the TypeScript linter in editors without Bun types installed
+declare module "bun:test" {
+  export const describe: any;
+  export const test: any;
+  export const expect: any;
+  export const beforeEach: any;
+  export const afterEach: any;
+  export const mock: any;
+}
+
+declare module "react-dom/client" {
+  export const createRoot: any;
+}
