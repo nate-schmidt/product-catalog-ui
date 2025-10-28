@@ -1,6 +1,5 @@
 // src/services/ProductService.ts
 import { Product } from '../types/catalog';
-import productsData from '../data/products.json';
 
 /**
  * Product Service - Currently returns stubbed data
@@ -8,53 +7,65 @@ import productsData from '../data/products.json';
  */
 
 /**
+ * Helper function to dynamically load products data
+ * This avoids top-level await issues and ensures the module is always initialized
+ */
+async function loadProductsData(): Promise<Product[]> {
+  const data = await import('../data/products.json');
+  return data.default as Product[];
+}
+
+/**
  * Get all products
  */
-export const getAllProducts = async (): Promise<Product[]> => {
+async function listProducts(): Promise<Product[]> {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
-  return productsData as Product[];
-};
+  return await loadProductsData();
+}
 
 /**
  * Get a single product by ID
  */
-export const getProductById = async (id: string): Promise<Product | null> => {
+async function getProduct(id: string): Promise<Product | null> {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 200));
+  const productsData = await loadProductsData();
   const product = productsData.find(p => p.id === id);
-  return product ? (product as Product) : null;
-};
+  return product || null;
+}
 
 /**
  * Search products by query string
  */
-export const searchProducts = async (query: string): Promise<Product[]> => {
+async function searchProducts(query: string): Promise<Product[]> {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 250));
   
+  const productsData = await loadProductsData();
   const lowerQuery = query.toLowerCase();
   const filtered = productsData.filter(p => 
     p.title.toLowerCase().includes(lowerQuery) ||
     (p.description && p.description.toLowerCase().includes(lowerQuery))
   );
   
-  return filtered as Product[];
-};
+  return filtered;
+}
 
 /**
  * Filter products by various criteria
  */
-export const filterProducts = async (filters: {
+async function filterProducts(filters: {
   minPrice?: number;
   maxPrice?: number;
   inStock?: boolean;
   badges?: Array<'sale' | 'new' | 'limited'>;
-}): Promise<Product[]> => {
+}): Promise<Product[]> {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
   
-  let filtered = [...productsData] as Product[];
+  const productsData = await loadProductsData();
+  let filtered = [...productsData];
   
   if (filters.minPrice !== undefined) {
     filtered = filtered.filter(p => p.priceCents >= filters.minPrice!);
@@ -75,18 +86,19 @@ export const filterProducts = async (filters: {
   }
   
   return filtered;
-};
+}
 
 /**
  * Get products sorted by criteria
  */
-export const getSortedProducts = async (
+async function getSortedProducts(
   sortBy: 'price-asc' | 'price-desc' | 'rating' | 'title'
-): Promise<Product[]> => {
+): Promise<Product[]> {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
   
-  const products = [...productsData] as Product[];
+  const productsData = await loadProductsData();
+  const products = [...productsData];
   
   switch (sortBy) {
     case 'price-asc':
@@ -100,9 +112,21 @@ export const getSortedProducts = async (
     default:
       return products;
   }
+}
+
+/**
+ * ProductService object with all service methods
+ * This ensures the module is always properly initialized when imported
+ */
+export const ProductService = {
+  listProducts,
+  getProduct,
+  searchProducts,
+  filterProducts,
+  getSortedProducts,
 };
 
-// Provide a named export expected by UI code
-export const ProductService = {
-  listProducts: getAllProducts,
-};
+// Also export individual functions for backward compatibility
+export const getAllProducts = listProducts;
+export const getProductById = getProduct;
+export { searchProducts, filterProducts, getSortedProducts };
