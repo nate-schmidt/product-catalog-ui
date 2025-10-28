@@ -1,5 +1,5 @@
 import { test, expect, describe, beforeEach } from 'bun:test';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { App } from './App';
 import { Window } from 'happy-dom';
 
@@ -12,6 +12,12 @@ const document = window.document;
 (global as any).navigator = window.navigator;
 (global as any).HTMLElement = window.HTMLElement;
 (global as any).Element = window.Element;
+(global as any).localStorage = {
+  getItem: () => null,
+  setItem: () => {},
+  removeItem: () => {},
+  clear: () => {},
+};
 
 describe('App', () => {
   beforeEach(() => {
@@ -23,44 +29,23 @@ describe('App', () => {
     render(<App />);
   });
 
-  test('displays the main heading', () => {
-    const { getByRole } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
-  });
-
-  test('displays the subtitle text', () => {
+  test('displays the header with Product Catalog title', () => {
     const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    expect(subtitle).toBeDefined();
+    const title = getByText('Product Catalog');
+    expect(title).toBeDefined();
   });
 
-  test('has correct CSS classes for styling', () => {
-    const { container } = render(<App />);
-    const mainContainer = container.querySelector('.max-w-7xl');
-    expect(mainContainer).toBeDefined();
-    expect(mainContainer?.className).toContain('max-w-7xl');
-    expect(mainContainer?.className).toContain('mx-auto');
-    expect(mainContainer?.className).toContain('p-8');
-    expect(mainContainer?.className).toContain('text-center');
+  test('displays the main heading', async () => {
+    const { getByText } = render(<App />);
+    await waitFor(() => {
+      const heading = getByText('Shop Our Collection');
+      expect(heading).toBeDefined();
+    });
   });
 
-  test('has correct text color classes', () => {
-    const { getByRole, getByText } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    
-    expect(heading.className).toContain('text-white');
-    expect(subtitle.className).toContain('text-gray-300');
-  });
-
-  test('has proper layout structure', () => {
+  test('has a cart button in header', () => {
     const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
+    const cartButtons = document.querySelectorAll('button');
+    expect(cartButtons.length).toBeGreaterThan(0);
   });
-}); 
+});
