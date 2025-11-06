@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+
+Use the following patterns for unit testing:
+- Always use `test()` instead of `it()`.
+- Prefer defining test cases within an object and then iterating over them.

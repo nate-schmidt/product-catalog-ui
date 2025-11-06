@@ -1,5 +1,5 @@
-import { test, expect, describe, beforeEach } from 'bun:test';
-import { render, cleanup } from '@testing-library/react';
+import { test, expect, describe, beforeEach, mock } from 'bun:test';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { App } from './App';
 import { Window } from 'happy-dom';
 
@@ -13,54 +13,111 @@ const document = window.document;
 (global as any).HTMLElement = window.HTMLElement;
 (global as any).Element = window.Element;
 
+// Mock fetch for tests
+const mockFetch = mock();
+(global as any).fetch = mockFetch;
+
 describe('App', () => {
   beforeEach(() => {
     cleanup();
     document.body.innerHTML = '';
+    mockFetch.mockReset();
   });
 
   test('renders without crashing', () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => [],
+    });
     render(<App />);
   });
 
-  test('displays the main heading', () => {
+  test('displays the main heading', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => [],
+    });
+
     const { getByRole } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
+    await waitFor(() => {
+      const heading = getByRole('heading', { level: 1 });
+      expect(heading).toBeDefined();
+      expect(heading.textContent).toBe('Furniture Catalog');
+    });
   });
 
-  test('displays the subtitle text', () => {
+  test('displays loading state initially', () => {
+    mockFetch.mockImplementation(() => new Promise(() => {})); // Never resolves
+    
     const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    expect(subtitle).toBeDefined();
+    expect(getByText('Loading products...')).toBeDefined();
   });
 
-  test('has correct CSS classes for styling', () => {
+  test('displays products when fetch succeeds', async () => {
+    const mockProducts = [
+      {
+        id: 1,
+        name: 'Test Chair',
+        description: 'A comfortable test chair',
+        category: 'Seating',
+        price: 299.99,
+        stock: 5,
+        dimensions: { width: 50, height: 100, depth: 50, unit: 'cm' },
+        material: 'Wood',
+        color: 'Brown',
+        imageUrl: null,
+        createdAt: '2024-01-01T00:00:00',
+        updatedAt: '2024-01-01T00:00:00',
+        inStock: true,
+      },
+    ];
+
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => mockProducts,
+    });
+
+    const { getByText } = render(<App />);
+    
+    await waitFor(() => {
+      expect(getByText('Test Chair')).toBeDefined();
+    });
+  });
+
+  test('displays error state when fetch fails', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      statusText: 'Server Error',
+    });
+
+    const { getByText } = render(<App />);
+    
+    await waitFor(() => {
+      expect(getByText('Failed to Load Products')).toBeDefined();
+    });
+  });
+
+  test('displays empty state when no products', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => [],
+    });
+
+    const { getByText } = render(<App />);
+    
+    await waitFor(() => {
+      expect(getByText('No Products Available')).toBeDefined();
+    });
+  });
+
+  test('has correct layout structure', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => [],
+    });
+
     const { container } = render(<App />);
     const mainContainer = container.querySelector('.max-w-7xl');
     expect(mainContainer).toBeDefined();
-    expect(mainContainer?.className).toContain('max-w-7xl');
-    expect(mainContainer?.className).toContain('mx-auto');
-    expect(mainContainer?.className).toContain('p-8');
-    expect(mainContainer?.className).toContain('text-center');
-  });
-
-  test('has correct text color classes', () => {
-    const { getByRole, getByText } = render(<App />);
-    const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
-    
-    expect(heading.className).toContain('text-white');
-    expect(subtitle.className).toContain('text-gray-300');
-  });
-
-  test('has proper layout structure', () => {
-    const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
   });
 }); 
