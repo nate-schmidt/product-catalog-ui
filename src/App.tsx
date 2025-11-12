@@ -1,17 +1,24 @@
+import { useState } from "react";
 import "./index.css";
+import ProductCatalog from "./components/ProductCatalog";
+import Cart from "./components/Cart";
+import CartToggle from "./components/CartToggle";
+import { CartProvider } from "./cart/CartProvider";
 
 export function App() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   return (
-    <div className="max-w-7xl mx-auto p-8 text-center relative z-10">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
-        <h1 className="text-6xl font-bold text-white mb-4">
-          Hello World! 👋
-        </h1>
-        <p className="text-2xl text-gray-300 max-w-2xl leading-relaxed">
-          One day I hope to be an ecommerce website.
-        </p>
+    <CartProvider>
+      <div className="max-w-7xl mx-auto p-8 relative z-10">
+        <header className="flex justify-between items-center mb-8">
+          <div></div>
+          <CartToggle onClick={() => setIsCartOpen(true)} />
+        </header>
+        <ProductCatalog />
+        <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       </div>
-    </div>
+    </CartProvider>
   );
 }
 

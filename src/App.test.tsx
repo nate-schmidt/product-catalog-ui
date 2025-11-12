@@ -27,12 +27,12 @@ describe('App', () => {
     const { getByRole } = render(<App />);
     const heading = getByRole('heading', { level: 1 });
     expect(heading).toBeDefined();
-    expect(heading.textContent).toBe('Hello World! 👋');
+    expect(heading.textContent).toBe('Furniture Store');
   });
 
   test('displays the subtitle text', () => {
     const { getByText } = render(<App />);
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
+    const subtitle = getByText('Quality furniture for every room in your home');
     expect(subtitle).toBeDefined();
   });
 
@@ -43,24 +43,23 @@ describe('App', () => {
     expect(mainContainer?.className).toContain('max-w-7xl');
     expect(mainContainer?.className).toContain('mx-auto');
     expect(mainContainer?.className).toContain('p-8');
-    expect(mainContainer?.className).toContain('text-center');
   });
 
   test('has correct text color classes', () => {
     const { getByRole, getByText } = render(<App />);
     const heading = getByRole('heading', { level: 1 });
-    const subtitle = getByText('One day I hope to be an ecommerce website.');
+    const subtitle = getByText('Quality furniture for every room in your home');
     
     expect(heading.className).toContain('text-white');
-    expect(subtitle.className).toContain('text-gray-300');
+    expect(subtitle.className).toContain('text-gray-400');
   });
 
   test('has proper layout structure', () => {
-    const { getByRole } = render(<App />);
-    const flexContainer = getByRole('heading', { level: 1 }).parentElement;
-    expect(flexContainer).toBeDefined();
-    expect(flexContainer?.className).toContain('flex');
-    expect(flexContainer?.className).toContain('flex-col');
-    expect(flexContainer?.className).toContain('items-center');
+    const { container } = render(<App />);
+    const header = container.querySelector('header');
+    expect(header).toBeDefined();
+    expect(header?.className).toContain('flex');
+    expect(header?.className).toContain('justify-between');
+    expect(header?.className).toContain('items-center');
   });
 }); 
