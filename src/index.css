@@ -28,3 +28,296 @@
     animation: none !important;
   }
 }
+
+/* Flash Sale - tacky, intrusive styles */
+.flash-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(90deg, #ff0066, #ffcc00, #00e0ff);
+  background-size: 300% 300%;
+  animation: rainbowShift 6s linear infinite;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.flash-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  color: #111;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.flash-banner-pip {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: #ff0033;
+  box-shadow: 0 0 10px #ff0033, 0 0 20px #ff0033;
+}
+.flash-banner-text {
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 6px rgba(255,255,255,0.8);
+}
+.flash-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.flash-banner-btn {
+  background: #111;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.flash-banner-btn:hover {
+  transform: scale(1.03);
+}
+.flash-banner-dismiss {
+  background: transparent;
+  border: none;
+  color: #111;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
+.flash-sale-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+}
+.flash-sale-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 0, 102, 0.15) 0,
+      rgba(255, 0, 102, 0.15) 10px,
+      rgba(255, 221, 0, 0.15) 10px,
+      rgba(255, 221, 0, 0.15) 20px
+    ),
+    rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+}
+.flash-sale-modal {
+  position: relative;
+  width: min(1100px, 95vw);
+  max-height: 85vh;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 4px solid #ff0066;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px #ff0066 inset;
+  background: linear-gradient(180deg, #111, #1b1b1b);
+  color: #fff;
+  animation: popIn 240ms ease-out;
+  display: flex;
+  flex-direction: column;
+}
+.flash-sale-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: #ff0066;
+  color: #fff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff0066, 0 0 20px #ff0066;
+}
+.flash-sale-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 16px 8px;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 60%);
+  border-bottom: 1px dashed rgba(255,255,255,0.2);
+}
+.flash-sale-burst {
+  background: #ffcc00;
+  color: #111;
+  font-weight: 900;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px #ffcc00;
+}
+.flash-sale-title {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.neon-text {
+  text-shadow: 0 0 8px rgba(255, 0, 102, 0.9), 0 0 16px rgba(255, 0, 102, 0.7);
+}
+.rainbow-text {
+  background: linear-gradient(90deg, #ff0066, #ffcc00, #00e0ff, #adff2f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
+}
+.flash-sale-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 16px 16px;
+}
+.countdown-chip,
+.discount-chip {
+  background: #fff;
+  color: #111;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 800;
+  border: 2px solid #111;
+}
+.countdown-time {
+  display: inline-block;
+  min-width: 56px;
+  text-align: center;
+  background: #111;
+  color: #ffcc00;
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin-left: 6px;
+}
+.flash-sale-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 12px 16px 16px;
+}
+@media (max-width: 960px) {
+  .flash-sale-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .flash-sale-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.flash-sale-card {
+  position: relative;
+  background: linear-gradient(180deg, #1f1f1f, #151515);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+.flash-sale-ribbon {
+  position: absolute;
+  top: 10px;
+  left: -30px;
+  transform: rotate(-20deg);
+  background: #ff0066;
+  color: #fff;
+  font-weight: 900;
+  padding: 4px 36px;
+  box-shadow: 0 0 10px #ff0066;
+}
+.flash-sale-card-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.flash-sale-card-title {
+  font-size: 18px;
+  font-weight: 800;
+}
+.flash-sale-prices {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.price-original {
+  color: #bbb;
+  text-decoration: line-through;
+}
+.price-sale {
+  color: #ffcc00;
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+}
+.flash-sale-cta {
+  background: linear-gradient(90deg, #ff0033, #ff6600);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(255, 0, 51, 0.4);
+}
+.flash-sale-cta:hover {
+  filter: brightness(1.1);
+}
+.flash-sale-footer {
+  border-top: 1px dashed rgba(255,255,255,0.2);
+  padding: 6px 0;
+  background: #0f0f0f;
+}
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-track {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 12s linear infinite;
+}
+.blinking {
+  animation: blink 1s steps(2, start) infinite;
+}
+.shake {
+  animation: shake 1.2s ease-in-out infinite;
+}
+.bounce {
+  animation: bounce 1.3s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px) rotate(-1deg); }
+  50% { transform: translateX(3px) rotate(1deg); }
+  75% { transform: translateX(-2px) rotate(-1deg); }
+  100% { transform: translateX(0); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes rainbowShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
