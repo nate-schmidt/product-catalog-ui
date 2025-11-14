@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+
+Whenever we need to use image assets, refer to the `/assets` directory in the root of the project.
